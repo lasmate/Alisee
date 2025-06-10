@@ -51,6 +51,7 @@
 	},
 	"dependencies": {
 		"@libsql/client": "^0.14.0",
-		"drizzle-orm": "^0.40.1"
+		"drizzle-orm": "^0.40.1",
+		"svelte-motion": "^0.12.2"
 	}
 }

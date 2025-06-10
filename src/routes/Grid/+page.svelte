@@ -1,24 +1,11 @@
-<script lang="ts">
-    import type { PageData } from './$types';
-
-    interface Item {
-        name: string;
-        // Add other properties as needed
-    }
-
-    interface GridPageData {
-        items: Item[];
-    }
-
-    let { data }: { data: GridPageData } = $props();
+<script>
+  import Item from '../Item/+page.svelte';
+  // sample product IDs
+  const productIds = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 </script>
 
-
-<div class="grid grid-cols-3 gap-4 background-grey-100">
-    {#each data.items as item}
-        <div>
-            <!-- Content for each item goes here -->
-            {item.name}
-        </div>
-    {/each}
+<div class="grid grid-cols-3 gap-6 p-4">
+  {#each productIds as id}
+    <Item productId={id} />
+  {/each}
 </div>
