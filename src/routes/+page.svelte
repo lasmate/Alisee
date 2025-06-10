@@ -6,4 +6,3 @@
 
 <Navbar />
 
-<Grid />

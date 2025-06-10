@@ -10,6 +10,7 @@ export const orders = sqliteTable("orders", {
     createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
     processedAt: text("processed_at"),
     shippedAt: text("shipped_at"),
+    shippingAddress: text("shipping_address"),
     price: integer("price"),
     isCompleted: integer("is_completed", { mode: "boolean" }).default(false),
 });
