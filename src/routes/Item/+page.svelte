@@ -1,10 +1,20 @@
 <script>
   import { Motion, useMotionTemplate, useMotionValue } from "svelte-motion";
+  import { onMount } from 'svelte';
   export let productId;
+  
+  let item = { id: 0, name: '', description: '', size: '', price: 0 };
 
   let mouseX = useMotionValue(0);
   let mouseY = useMotionValue(0);
   let background = useMotionTemplate`radial-gradient(200px circle at ${mouseX}px ${mouseY}px, rgba(51, 51, 51, 0.4), transparent 80%)`;
+  
+  onMount(async () => {
+    const res = await fetch(`/Item?productId=${productId}`);
+    if (res.ok) {
+      item = await res.json();
+    }
+  });
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -37,20 +47,20 @@
     <div class="space-y-2">
       <!-- svelte-ignore a11y-img-redundant-alt -->
       <img
-        src="https://i.pinimg.com/564x/c3/5c/30/c35c30d5bb21d2392c3daa0abd8a5440.jpg"
-        alt="Product image"
+        src={`src/img/Produits/${productId}.jpg`}
+        alt="Product ${productId} image"
         height={10}
         width={10}
         class="rounded-xl h-52 w-full object-cover opacity-75"
       />
       <div class="flex flex-row items-center justify-between pt-2">
-        <h3 class="text-xl font-semibold text-neutral-200">Luxe</h3>
-        <p class="text-[13px] text-neutral-300 select-none">$249.00</p>
+        <h3 class="text-xl font-semibold text-neutral-200">{item.name}</h3>
+        <p class="text-[13px] text-neutral-300 select-none">${item.price.toFixed(2)}</p>
       </div>
-      <p class="text-sm leading-[1.5] text-neutral-400 pb-3">
-        Library of dark mode components to illuminate your applications with
-        elegance and sophistication.
-      </p>
+      <p class="text-sm leading-[1.5] text-neutral-400 pb-3">{item.description}</p>
+      {#if item.size}
+        <p class="text-sm text-neutral-400">Size: {item.size}</p>
+      {/if}
       <button
         class="inline-flex items-center justify-center gap-1 text-sm py-3 px-4 font-semibold bg-white text-black rounded-lg duration-300 hover:bg-white/70 w-full"
       >
