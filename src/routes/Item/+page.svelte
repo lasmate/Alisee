@@ -61,10 +61,17 @@
       {#if item.size}
         <p class="text-sm text-neutral-400">Size: {item.size}</p>
       {/if}
+      
+        <button
+          class="w-full rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-neutral-900 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2"
+          on:click={() => alert(`Added ${item.name} to cart!`)}
+        >
+          Acheter
+      </button>
       <button
-        class="inline-flex items-center justify-center gap-1 text-sm py-3 px-4 font-semibold bg-white text-black rounded-lg duration-300 hover:bg-white/70 w-full"
-      >
-        Sponsor Now
+        class="w-full rounded-lg bg-neutral-700 px-4 py-2 text-sm font-semibold text-neutral-200 hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"
+        on:click={() => alert(`Details for ${item.name}`)}>
+        Customiser
       </button>
     </div>
   </div>
