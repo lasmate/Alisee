@@ -1,14 +1,18 @@
 import { integer, primaryKey, sqliteTable, text, } from "drizzle-orm/sqlite-core";
-import { prices } from "./price";
-import { quantities } from "./quantity";
-
-export const items = sqliteTable("items", {
-    id: integer("id").primaryKey(),
+export const item = sqliteTable("items", {
+    id: integer("id").primaryKey({ autoIncrement: true }),
     name: text("name").notNull(),
-    priceId: integer("price_id").references(prices.id),
-    quantityId: integer("quantity_id").references(quantities.id),
+    description: text("description")
+        .notNull(),
+    image: text("image").notNull(),
     size: text("size"),
-    customisable: text("customisable").notNull(),
+    price: integer("price")
+        .notNull(),
+    quantity: integer("quantity")
+        .notNull(),
+    category: text("category").notNull(),
+    tags: text("tags").notNull(),
+    isAvailable: integer("is_available")
+        .notNull().default(1),
+    isCustomisable: integer("customisable").notNull().default(1),
 });
-
-export type Item = typeof items.$inferSelect
