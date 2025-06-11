@@ -1,6 +1,15 @@
 import 'dotenv/config';
-import { db } from './index';
-import { item } from './schema/Item';
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
+import { item } from './schema/Item.ts';
+
+const databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl) {
+  console.error('DATABASE_URL is not set');
+  process.exit(1);
+}
+const client = createClient({ url: databaseUrl });
+const db = drizzle(client, { schema: { item } });
 
 async function seed() {
 const itemsToInsert = [
