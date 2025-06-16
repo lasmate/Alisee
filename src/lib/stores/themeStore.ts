@@ -1,16 +1,7 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
-// Determine initial theme from localStorage or system preference
-let initialTheme = 'light';
-if (browser) {
-  const storedTheme = localStorage.getItem('theme');
-  if (storedTheme) {
-    initialTheme = storedTheme;
-  } else {
-    initialTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-}
+let initialTheme = 'dark';
 
 export const theme = writable(initialTheme);
 
@@ -21,8 +12,10 @@ export function toggleTheme() {
       localStorage.setItem('theme', newTheme);
       if (newTheme === 'dark') {
         document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
       } else {
         document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
       }
     }
     return newTheme;
@@ -31,9 +24,14 @@ export function toggleTheme() {
 
 // Apply initial theme class to HTML element on load
 if (browser) {
-  if (initialTheme === 'dark') {
+  const savedTheme = localStorage.getItem('theme') || initialTheme;
+  theme.set(savedTheme);
+  
+  if (savedTheme === 'dark') {
     document.documentElement.classList.add('dark');
+    document.documentElement.classList.remove('light');
   } else {
     document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light');
   }
 }

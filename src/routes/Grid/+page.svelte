@@ -13,28 +13,25 @@
           productIds = Array.from({ length: data.count }, (_, i) => i + 1);
         } else {
           console.error('Invalid count received:', data);
-          // Fallback or error handling
           productIds = [];
         }
       } else {
         console.error('Failed to fetch product count:', response.status);
-         // Fallback or error handling
         productIds = [];
       }
     } catch (error) {
       console.error('Error fetching product count:', error);
-       // Fallback or error handling
       productIds = [];
     }
   });
 </script>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4 place-content-around place-items-center">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4 place-content-around place-items-center bg-black dark:bg-black light:bg-white transition-colors duration-300">
   {#if productIds.length > 0}
     {#each productIds as id (id)}
       <Item productId={id} />
     {/each}
   {:else}
-    <p class="text-center col-span-full">Loading products or no products found...</p>
+    <p class="text-center col-span-full text-white dark:text-white light:text-black">Loading products or no products found...</p>
   {/if}
 </div>

@@ -1,10 +1,4 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
 
 
-@layer base {
-  body {
-    @apply text-gray-200;
-  }
-}
+
