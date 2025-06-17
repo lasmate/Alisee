@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
-import { users } from './schema/Users';
+import { users } from './schema/Users.ts';
 
 interface UserData {
   name: string;
@@ -9,7 +9,7 @@ interface UserData {
   email: string;
   password: string;
   createdAt?: string;
-  accountType: string;
+  accountType: number;
   orderIDs?: string;
 }
 
@@ -21,7 +21,7 @@ if (!databaseUrl) {
 const client = createClient({ url: databaseUrl });
 const db = drizzle(client, { schema: { users } });
 
-async function seedUser() {
+export async function seedUser() {
   const usersToInsert: UserData[] = [
     {
       name: 'Alice',
@@ -29,7 +29,7 @@ async function seedUser() {
       email: 'alice@example.com',
       password: 'password123',
       createdAt: new Date().toISOString(),
-      accountType: 'customer',
+      accountType: 0,
       orderIDs: '[]'
     },
     {
@@ -38,21 +38,27 @@ async function seedUser() {
       email: 'bob@example.com',
       password: 'securepass',
       createdAt: new Date().toISOString(),
-      accountType: 'admin',
+      accountType: 0,
+      orderIDs: '[]'
+    },
+    {
+      name: 'Admin',
+      surname: 'Brown',
+      email: 'admin@example.com',
+      password: 'adminpass',
+      createdAt: new Date().toISOString(),
+      accountType: 1,
       orderIDs: '[]'
     }
   ];
 
   for (const user of usersToInsert) {
-    await db.insert(users).values(user);
+    await db.insert(users)
+      .values(user)
+      .onConflictDoNothing();
     console.log(`Inserted user: ${user.name} ${user.surname}`);
   }
 
   console.log('User seeding complete.');
-  process.exit(0);
+  await client.close();
 }
-
-seedUser().catch(err => {
-  console.error('User seeding failed:', err);
-  process.exit(1);
-});
