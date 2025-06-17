@@ -11,7 +11,7 @@ if (!databaseUrl) {
 const client = createClient({ url: databaseUrl });
 const db = drizzle(client, { schema: { item } });
 
-async function seed() {
+async function seedItem() {
 const itemsToInsert = [
     {
             name: 'Petit Badge',
@@ -148,7 +148,7 @@ const itemsToInsert = [
   process.exit(0);
 }
 
-seed().catch((err) => {
+seedItem().catch((err) => {
   console.error('Seeding failed:', err);
   process.exit(1);
 });

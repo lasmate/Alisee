@@ -42,8 +42,8 @@
 </script>
 
 {#if mounted}
-  <div class="sticky flex flex-row place-content-around rounded-b-3xl text-white">
-    <div class="border-1 h-10 rounded-bl-3xl basis-1/8 text-center flex items-center justify-center {currentTheme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300">
+  <div class="sticky flex flex-row place-content-around rounded-b-3xl text-white z-10">
+    <div class="border-1 h-10 rounded-bl-3xl basis-1/8 text-center flex items-center justify-center {currentTheme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300 ">
       <button on:click={() => (window.location.href = '/')}><img src={highContrastSrc} alt="HighContrastToggle" class="h-8 w-8 inline-block" /></button>
     </div>
     <div class="border-1 h-10 basis-1/4 text-center flex items-center justify-center {currentTheme === 'dark' ? 'bg-black' : 'bg-white'} transition-colors duration-300">
