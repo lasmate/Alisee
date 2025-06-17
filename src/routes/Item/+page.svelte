@@ -64,7 +64,7 @@
 			: 'border-black/10'} px-4 py-5"
 	>
 		<div class="space-y-2">
-			<!-- svelte-ignore a11y-img-redundant-alt -->
+			<!-- Product image -->
 			<img
 				src={`src/img/Produits/${productId}.jpg`}
 				alt="Product ${productId} image"

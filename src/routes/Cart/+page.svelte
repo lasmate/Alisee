@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { cart } from '$lib/stores/cart';
-
-	let { data }: { data: PageData } = $props();
 </script>
 
 <div class="mx-auto max-w-4xl p-8">
