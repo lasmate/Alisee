@@ -1,8 +1,9 @@
 <script>
-    import Navbar from './Navbar/+page.svelte';
-    import Grid from './Grid/+page.svelte';
+	import Navbar from './Navbar/+page.svelte';
+	import Grid from './Grid/+page.svelte';
 </script>
-<div class="bg-black dark:bg-black light:bg-white transition-colors duration-300">  
-<Navbar />
-<Grid />
+
+<div class="light:bg-white bg-black transition-colors duration-300 dark:bg-black">
+	<Navbar />
+	<Grid />
 </div>
