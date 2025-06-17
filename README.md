@@ -67,6 +67,14 @@ npm run dev -- --open
 
 This project uses Drizzle ORM with a SQLite database by default (via `libsql`).
 
+### Quick Reset
+
+For convenience there's a mini-script `dbump.sh` in the project root that will remove the existing `db.sqlite` file and re-run the full seed process:
+
+```bash
+./dbump.sh
+```
+
 1. **Define your schema:**
    Modify the schema files in `src/lib/server/db/schema/`.
 
@@ -82,8 +90,6 @@ This project uses Drizzle ORM with a SQLite database by default (via `libsql`).
 
    ```bash
    # Replace <migration-name> with a descriptive name
-   # npx drizzle-kit generate:sqlite --name <migration-name>
-   # For this project, as drizzle.config.ts is set up, you might not need to specify dialect
    npx drizzle-kit generate --name <migration-name>
    ```
 
@@ -93,14 +99,14 @@ This project uses Drizzle ORM with a SQLite database by default (via `libsql`).
    npm run db:migrate
    ```
 
-4. **Seed the database:**
-   To populate your database with initial data, run the seed script:
+4. **Seed the database (idempotent):**
+   We now maintain three separate seed scripts (`seedItem.ts`, `seedUser.ts`, `seedImg.ts`) orchestrated by `seed.ts` to populate items, users, and image entries. Each script uses `ON CONFLICT DO NOTHING` and enforced unique constraints to prevent duplicates, so you can safely re-run seeding as needed.
 
    ```bash
    npm run db:seed
    ```
-
-   You can modify the seed data in `src/lib/server/db/seed.ts`.
+    
+   If you ever need to reset, delete or rename the `db.sqlite` file before reseeding.
 
 5. **Drizzle Studio:**
    To open Drizzle Studio, a GUI for your database:
