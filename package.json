@@ -57,8 +57,10 @@
 	"dependencies": {
 		"@friendofsvelte/toggle": "^0.0.4-svelte.5",
 		"@libsql/client": "^0.14.0",
+		"clsx": "^2.1.1",
 		"dotenv": "^16.5.0",
 		"drizzle-orm": "^0.40.1",
-		"svelte-motion": "^0.12.2"
+		"svelte-motion": "^0.12.2",
+		"tailwind-merge": "^3.3.1"
 	}
 }
