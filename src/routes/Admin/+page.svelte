@@ -54,14 +54,14 @@
 >
     <Navbar />
     <!--Animated tabs-->
-    <div class="py-20 w-full">
+    <div class="py-2 w-full">
     <ul
       on:mouseleave={() => {
         width = width;
         left = left;
         opacity = 0;
       }}
-      class="relative mx-auto flex w-fit rounded-full border-2 {currentTheme === 'light' ? 'border-white text-white'  : 'border-black text-black'} p-1"
+      class="relative mx-auto flex w-fit rounded-full border-1 {currentTheme === 'dark' ? 'border-white text-white'  : 'border-black text-black'} p-1"
     >
       {#each navs as item}
         <button
@@ -71,7 +71,7 @@
           on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && (openModal = item.key)}
           type="button"
         >
-          <a href="#">{item.name}</a>
+        {item.name}
         </button>
       {/each}
       <Motion
@@ -90,7 +90,7 @@
       >
         <li
           use:motion
-          class="absolute z-0 h-7 rounded-full bg-black md:h-12"
+          class="absolute z-0 h-7 rounded-full {currentTheme === 'light' ? 'bg-black' : 'bg-white'} md:h-12"
         ></li>
       </Motion>
     </ul>

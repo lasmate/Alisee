@@ -120,7 +120,7 @@
                                 {product.name}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm {currentTheme === 'dark' ? 'text-neutral-300' : 'text-gray-900'}">
-                                ${formatPrice(product.price)}
+                                {product.price.toFixed(2)}€
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm {currentTheme === 'dark' ? 'text-neutral-300' : 'text-gray-900'}">
                                 {product.quantity}
