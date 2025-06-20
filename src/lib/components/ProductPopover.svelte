@@ -6,6 +6,12 @@
 		size?: string;
 		price: number;
 	}
+	export interface ImgDetails{
+		id: number;
+		name: string;
+		img_path: string;
+
+	}
 </script>
 
 <script lang="ts">
@@ -14,6 +20,8 @@
 	import { theme } from '$lib/stores/themeStore';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+
+	let imgCount = 0;
 
 	// strongly-typed dispatcher
 	const dispatch = createEventDispatcher<{ close: void }>();
@@ -25,9 +33,20 @@
 	});
 
 	onMount(() => {
-		// Set initial theme
-		currentTheme = $theme;
-		return unsubscribe;
+		(async () => {
+			// Set initial theme
+			currentTheme = $theme;
+			// fetch total image count
+			try {
+				const res = await fetch('/api/images/count');
+				const data = await res.json();
+				imgCount = data.count || 0;
+				//console.log('imgCount:', imgCount);
+			} catch {
+				imgCount = 0;
+			}
+		})();
+		return () => unsubscribe();
 	});
 
 	export let item: Item;
@@ -75,6 +94,16 @@
 						${item.price.toFixed(2)}
 					</p>
 				</div>
+				{#if imgCount > 0}
+					<div class="flex flex-wrap space-x-2 my-2">
+						{#each Array(imgCount) as _, i}
+							<span class="inline-block w-3 h-3 rounded-full transition-colors"
+								class:bg-white={currentTheme === 'dark'}
+								class:bg-black={currentTheme === 'light'}
+							></span>
+						{/each}
+					</div>
+				{/if}
 				<p
 					class="text-sm leading-[1.5] {currentTheme === 'dark'
 						? 'text-neutral-400'
@@ -87,6 +116,9 @@
 						Taille: {item.size}
 					</p>
 				{/if}
+				<div>
+
+				</div>
 			</div>
 		</div>
 		<div class="mt-4">
