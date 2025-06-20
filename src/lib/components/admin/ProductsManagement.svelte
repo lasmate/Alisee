@@ -1,7 +1,21 @@
+<!--
+    ProductsManagement.svelte
+
+    Admin component to manage products. Displays a table with product details 
+    (ID, name, price, quantity, availability) and allows toggling availability.
+
+    Props: currentTheme (string).
+    Events: close (dispatched on modal close).
+    Functions: toggleProductAvailability, formatPrice.
+-->
 <script lang="ts">
+    import { fly } from 'svelte/transition';
+    import { createEventDispatcher, onMount } from 'svelte';
+    const dispatch = createEventDispatcher();
+
     export let currentTheme: string;
-    export let products: Product[] = [];
-    export let loading: boolean = false;
+    let products: Product[] = [];
+    let loading: boolean = false;
 
     type Product = {
         id: number;
@@ -16,6 +30,20 @@
         isAvailable: number;
         isCustomisable: number;
     };
+
+    onMount(async () => {
+        loading = true;
+        try {
+            const res = await fetch('/api/admin/products');
+            if (res.ok) {
+                products = await res.json();
+            }
+        } catch (e) {
+            console.error('Failed to fetch products', e);
+        } finally {
+            loading = false;
+        }
+    });
 
     async function toggleProductAvailability(product: Product) {
         try {
@@ -40,12 +68,18 @@
     }
 </script>
 
-<div class="{currentTheme === 'dark' ? 'bg-neutral-800' : 'bg-white'} rounded-lg shadow overflow-hidden">
-    <div class="px-6 py-4 border-b {currentTheme === 'dark' ? 'border-neutral-700' : 'border-gray-200'}">
-        <h2 class="text-xl font-semibold {currentTheme === 'dark' ? 'text-white' : 'text-gray-900'}">
-            Gestion des Produits
-        </h2>
-    </div>
+<div class="fixed inset-0 z-15 flex items-center justify-center">
+	<div
+		class="absolute inset-0 bg-black/50"
+		role="button"
+		tabindex="0"
+		on:click={() => dispatch('close')}
+		on:keydown={(e) => e.key === 'Escape' && dispatch('close')}
+	></div>
+	<div
+		in:fly={{ y: 200, duration: 300 }}
+		out:fly={{ y: 200, duration: 300 }}
+		class="relative {currentTheme === 'dark' ? 'bg-neutral-900' : 'bg-gray-100'} overflow-auto rounded-lg p-6">
     
     {#if loading}
         <div class="flex justify-center items-center py-8">
@@ -114,4 +148,5 @@
             </table>
         </div>
     {/if}
+    </div>
 </div>

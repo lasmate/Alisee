@@ -1,187 +1,117 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { theme } from '$lib/stores/themeStore';
-    import { browser } from '$app/environment';
-    import ProductsManagement from '$lib/components/admin/ProductsManagement.svelte';
-    import UsersManagement from '$lib/components/admin/UsersManagement.svelte';
-    import OrdersManagement from '$lib/components/admin/OrdersManagement.svelte';
+  import { theme } from '$lib/stores/themeStore';
+  import Navbar from '../Navbar/+page.svelte';
+  import ProductsManagement from '$lib/components/admin/ProductsManagement.svelte';
+  import UsersManagement from '$lib/components/admin/UsersManagement.svelte';
+  import OrdersManagement from '$lib/components/admin/OrdersManagement.svelte';
+  import { fly } from 'svelte/transition';
 
-    type Product = {
-        id: number;
-        name: string;
-        description: string;
-        image: string;
-        size?: string;
-        price: number;
-        quantity: number;
-        category: string;
-        tags: string;
-        isAvailable: number;
-        isCustomisable: number;
+  import { Motion } from 'svelte-motion';
+
+  let currentTheme: string;
+  theme.subscribe(value => currentTheme = value);
+
+  let left = 0;
+  let width = 0;
+  let opacity = 0;
+  let ref: any;
+  let navs: { name: string; key: 'products' | 'orders' | 'users' }[] = [
+    {
+      name: "Produit",
+      key: 'products',
+    },
+    {
+      name: "Commandes",
+      key: 'orders',
+    },
+    {
+      name: "Utilisateurs",
+      key: 'users',
+    },
+  ];
+  let positionMotion = (node: HTMLElement) => {
+    let refNode = () => {
+      let mint = node.getBoundingClientRect();
+      left = node.offsetLeft;
+      width = mint.width;
+      opacity = 1;
     };
-
-    type User = {
-        id: number;
-        name: string;
-        surname: string;
-        email: string;
-        createdAt?: string;
-        accountType: number;
-        orderIDs: string;
+    node.addEventListener("mouseenter", refNode);
+    return {
+      destroy() {
+        node.removeEventListener("mouseenter", refNode);
+      },
     };
+  };
 
-    type Order = {
-        orderId: number;
-        itemId?: number;
-        itemName?: string;
-        userId?: number;
-        userName?: string;
-        userSurname?: string;
-        userEmail?: string;
-        createdAt?: string;
-        processedAt?: string;
-        shippedAt?: string;
-        shippingAddress?: string;
-        price?: number;
-        isCompleted?: boolean;
-    };
-
-    let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
-    let activeSection: 'menu' | 'products' | 'users' | 'orders' = 'menu';
-    
-    let products: Product[] = [];
-    let users: User[] = [];
-    let orders: Order[] = [];
-    
-    let loading = false;
-
-    const unsubscribe = theme.subscribe((themeValue) => {
-        currentTheme = themeValue;
-    });
-
-    onMount(() => {
-        currentTheme = $theme;
-        return () => unsubscribe();
-    });
-
-    async function loadProducts() {
-        loading = true;
-        try {
-            const response = await fetch('/api/admin/products');
-            products = await response.json();
-        } catch (error) {
-            console.error('Error loading products:', error);
-        } finally {
-            loading = false;
-        }
-    }
-
-    async function loadUsers() {
-        loading = true;
-        try {
-            const response = await fetch('/api/admin/users');
-            users = await response.json();
-        } catch (error) {
-            console.error('Error loading users:', error);
-        } finally {
-            loading = false;
-        }
-    }
-
-    async function loadOrders() {
-        loading = true;
-        try {
-            const response = await fetch('/api/admin/orders');
-            orders = await response.json();
-        } catch (error) {
-            console.error('Error loading orders:', error);
-        } finally {
-            loading = false;
-        }
-    }
-
-    function navigateToSection(section: typeof activeSection) {
-        activeSection = section;
-        if (section === 'products') loadProducts();
-        else if (section === 'users') loadUsers();
-        else if (section === 'orders') loadOrders();
-    }
+  // State for which management modal is open
+  let openModal: 'products' | 'orders' | 'users' | null = null;
 </script>
 
-<div class="min-h-screen {currentTheme === 'dark' ? 'bg-neutral-900' : 'bg-gray-50'}">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8 {currentTheme === 'dark' ? 'text-white' : 'text-gray-900'}">
-            Administration
-        </h1>
+<div
+    class="h-[100vh] transition-colors duration-300 {currentTheme === 'dark' ? 'bg-black' : 'bg-white'}"
+    style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\'%3E%3Cg fill=\'%23e19b17\' fill-opacity=\'0.45\'%3E%3Cpolygon fill-rule=\'evenodd\' points=\'8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4\'/%3E%3C/g%3E%3C/svg%3E');"
+>
+    <Navbar />
+    <!--Animated tabs-->
+    <div class="py-20 w-full">
+    <ul
+      on:mouseleave={() => {
+        width = width;
+        left = left;
+        opacity = 0;
+      }}
+      class="relative mx-auto flex w-fit rounded-full border-2 {currentTheme === 'light' ? 'border-white text-white'  : 'border-black text-black'} p-1"
+    >
+      {#each navs as item}
+        <button
+          use:positionMotion
+          class="relative z-10 block cursor-pointer px-3 py-1.5 text-xs uppercase text-white mix-blend-difference md:px-5 md:py-3 md:text-base"
+          on:click={() => openModal = item.key}
+          on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && (openModal = item.key)}
+          type="button"
+        >
+          <a href="#">{item.name}</a>
+        </button>
+      {/each}
+      <Motion
+        animate={{
+          left: left,
+          width: width,
+          opacity: opacity,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 400,
+          damping: 30,
+  
+        }}
+        let:motion
+      >
+        <li
+          use:motion
+          class="absolute z-0 h-7 rounded-full bg-black md:h-12"
+        ></li>
+      </Motion>
+    </ul>
+  </div>
 
-        {#if activeSection === 'menu'}
-            <!-- Main Menu -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <button
-                    on:click={() => navigateToSection('products')}
-                    class="p-8 rounded-lg border-2 border-dashed transition-all hover:scale-105 {currentTheme === 'dark' 
-                        ? 'border-neutral-600 bg-neutral-800 hover:border-amber-500 text-white' 
-                        : 'border-gray-300 bg-white hover:border-amber-500 text-gray-900'}"
-                >
-                    <div class="text-center">
-                        <div class="text-4xl mb-4">📦</div>
-                        <h2 class="text-xl font-semibold mb-2">Gestion Produits</h2>
-                        <p class="text-sm {currentTheme === 'dark' ? 'text-neutral-400' : 'text-gray-600'}">
-                            Gérer la disponibilité des produits
-                        </p>
-                    </div>
-                </button>
+    <!-- Management Modals -->
+    {#if openModal === 'products'}
+      <ProductsManagement
+        currentTheme={currentTheme}
+        on:close={() => openModal = null}
+      />
+    {:else if openModal === 'orders'}
+      <OrdersManagement
+        currentTheme={currentTheme}
+        on:close={() => openModal = null}
+      />
+    {:else if openModal === 'users'}
+      <UsersManagement
+        currentTheme={currentTheme}
+        on:close={() => openModal = null}
+      />
+    {/if}
 
-                <button
-                    on:click={() => navigateToSection('orders')}
-                    class="p-8 rounded-lg border-2 border-dashed transition-all hover:scale-105 {currentTheme === 'dark' 
-                        ? 'border-neutral-600 bg-neutral-800 hover:border-amber-500 text-white' 
-                        : 'border-gray-300 bg-white hover:border-amber-500 text-gray-900'}"
-                >
-                    <div class="text-center">
-                        <div class="text-4xl mb-4">📋</div>
-                        <h2 class="text-xl font-semibold mb-2">Gestion Commandes</h2>
-                        <p class="text-sm {currentTheme === 'dark' ? 'text-neutral-400' : 'text-gray-600'}">
-                            Voir et gérer les commandes
-                        </p>
-                    </div>
-                </button>
-
-                <button
-                    on:click={() => navigateToSection('users')}
-                    class="p-8 rounded-lg border-2 border-dashed transition-all hover:scale-105 {currentTheme === 'dark' 
-                        ? 'border-neutral-600 bg-neutral-800 hover:border-amber-500 text-white' 
-                        : 'border-gray-300 bg-white hover:border-amber-500 text-gray-900'}"
-                >
-                    <div class="text-center">
-                        <div class="text-4xl mb-4">👥</div>
-                        <h2 class="text-xl font-semibold mb-2">Gestion Utilisateurs</h2>
-                        <p class="text-sm {currentTheme === 'dark' ? 'text-neutral-400' : 'text-gray-600'}">
-                            Gérer les comptes utilisateurs
-                        </p>
-                    </div>
-                </button>
-            </div>
-        {:else}
-            <!-- Back to Menu Button -->
-            <button
-                on:click={() => navigateToSection('menu')}
-                class="mb-6 px-4 py-2 rounded-lg {currentTheme === 'dark' 
-                    ? 'bg-neutral-700 hover:bg-neutral-600 text-white' 
-                    : 'bg-gray-200 hover:bg-gray-300 text-gray-900'} transition-colors"
-            >
-                ← Retour au menu
-            </button>            {#if loading}
-                <div class="flex justify-center items-center py-8">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 {currentTheme === 'dark' ? 'border-white' : 'border-gray-900'}"></div>
-                </div>
-            {:else if activeSection === 'products'}
-                <ProductsManagement {currentTheme} bind:products {loading} />
-            {:else if activeSection === 'users'}
-                <UsersManagement {currentTheme} bind:users {loading} />
-            {:else if activeSection === 'orders'}
-                <OrdersManagement {currentTheme} {orders} {loading} />
-            {/if}
-        {/if}
-    </div>
 </div>
