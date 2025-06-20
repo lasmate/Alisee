@@ -27,7 +27,7 @@
 </script>
 
 <div
-	class="light:bg-white grid grid-cols-1 place-content-around place-items-center gap-6 bg-black p-4 transition-colors duration-300 sm:grid-cols-2 md:grid-cols-3 dark:bg-black"
+	class=" grid grid-cols-1 place-content-around place-items-center gap-6 p-4 transition-colors duration-300 sm:grid-cols-2 md:grid-cols-4"
 >
 	{#if productIds.length > 0}
 		{#each productIds as id (id)}

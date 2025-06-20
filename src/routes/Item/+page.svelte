@@ -45,7 +45,7 @@
 	class="group relative w-full max-w-[350px] overflow-hidden rounded-xl {currentTheme === 'dark'
 		? 'bg-black'
 		: 'bg-white'} transition-colors duration-300"
->
+	>
 	<div
 		class="absolute top-0 right-5 h-px w-80 bg-gradient-to-l from-transparent {currentTheme ===
 		'dark'

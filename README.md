@@ -1,4 +1,4 @@
-# Alisee Project
+# Projet Alisee
 
 ![Svelte](https://img.shields.io/badge/Svelte-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
@@ -8,199 +8,199 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Version](https://img.shields.io/badge/version-v0.0.5-blue?style=for-the-badge)
 
-This is a Svelte project bootstrapped with SvelteKit, using Tailwind CSS for styling and Drizzle ORM for database interactions.
+Ceci est un projet Svelte initialisé avec SvelteKit, utilisant Tailwind CSS pour le style et Drizzle ORM pour les interactions avec la base de données.
 
-## Getting Started
+## Démarrage rapide
 
-### Prerequisites
+### Prérequis
 
-- Node.js (version recommended by SvelteKit, typically latest LTS)
-- npm (or pnpm/yarn)
+- Node.js (version recommandée par SvelteKit, généralement la dernière LTS)
+- npm (ou pnpm/yarn)
 
 ### Installation
 
-1. **Clone the repository (if you haven't already):**
+1. **Cloner le dépôt (si ce n'est pas déjà fait) :**
 
    ```bash
-   # If you're starting from scratch or contributing
+   # Si vous partez de zéro ou contribuez
    # git clone <repository-url>
    # cd alisee
    ```
 
-2. **Install dependencies:**
+2. **Installer les dépendances :**
 
    ```bash
    npm install
    ```
 
-3. **Set up environment variables:**
+3. **Configurer les variables d'environnement :**
 
-   Create a `.env` file in the root of the project and add your database URL:
+   Créer un fichier `.env` à la racine du projet et ajouter l'URL de votre base de données :
 
    ```env
    DATABASE_URL="file:./db.sqlite"
    ```
 
-   Or for a remote Turso/libSQL database:
+   Ou pour une base de données Turso/libSQL distante :
 
    ```env
    DATABASE_URL="libsql://your-database.turso.io"
    TURSO_AUTH_TOKEN="your-auth-token"
    ```
 
-## Development
+## Développement
 
-To start the development server:
+Pour démarrer le serveur de développement :
 
 ```bash
 npm run dev
 ```
 
-This will start the SvelteKit development server, typically on `http://localhost:5173`. The server will automatically reload when you make changes to the code.
+Cela démarrera le serveur de développement SvelteKit, généralement sur `http://localhost:5173`. Le serveur se rechargera automatiquement lorsque vous apporterez des modifications au code.
 
-To open the app in a new browser tab when starting the server:
+Pour ouvrir l'application dans un nouvel onglet de navigateur lors du démarrage du serveur :
 
 ```bash
 npm run dev -- --open
 ```
 
-## Database Management (Drizzle ORM)
+## Gestion de la base de données (Drizzle ORM)
 
-This project uses Drizzle ORM with a SQLite database by default (via `libsql`).
+Ce projet utilise Drizzle ORM avec une base de données SQLite par défaut (via `libsql`).
 
-### Quick Reset
+### Réinitialisation rapide
 
-For convenience there's a mini-script `dbump.sh` in the project root that will remove the existing `db.sqlite` file and re-run the full seed process:
+Pour plus de commodité, il existe un mini-script `dbump.sh` à la racine du projet qui supprimera le fichier `db.sqlite` existant et relancera le processus d'amorçage complet :
 
 ```bash
 ./dbump.sh
 ```
 
-1. **Define your schema:**
-   Modify the schema files in `src/lib/server/db/schema/`.
+1. **Définir votre schéma :**
+   Modifier les fichiers de schéma dans `src/lib/server/db/schema/`.
 
-2. **Push schema changes to the database:**
-   This command will compare your schema files with the database and apply the necessary changes. It's useful for development but use migrations for production.
+2. **Envoyer les modifications de schéma à la base de données :**
+   Cette commande comparera vos fichiers de schéma avec la base de données et appliquera les modifications nécessaires. C'est utile pour le développement, mais utilisez les migrations pour la production.
 
    ```bash
    npm run db:push
    ```
 
-3. **Create and apply migrations (Recommended for production):**
-   Generate a migration file based on schema changes:
+3. **Créer et appliquer des migrations (recommandé pour la production) :**
+   Générer un fichier de migration basé sur les modifications de schéma :
 
    ```bash
-   # Replace <migration-name> with a descriptive name
+   # Remplacer <migration-name> par un nom descriptif
    npx drizzle-kit generate --name <migration-name>
    ```
 
-   Then apply the generated migration:
+   Puis appliquer la migration générée :
 
    ```bash
    npm run db:migrate
    ```
 
-4. **Seed the database (idempotent):**
-   We now maintain three separate seed scripts (`seedItem.ts`, `seedUser.ts`, `seedImg.ts`) orchestrated by `seed.ts` to populate items, users, and image entries. Each script uses `ON CONFLICT DO NOTHING` and enforced unique constraints to prevent duplicates, so you can safely re-run seeding as needed.
+4. **Amorcer la base de données (idempotent) :**
+   Nous maintenons maintenant trois scripts d'amorçage distincts (`seedItem.ts`, `seedUser.ts`, `seedImg.ts`) orchestrés par `seed.ts` pour peupler les éléments, les utilisateurs et les entrées d'image. Chaque script utilise `ON CONFLICT DO NOTHING` et applique des contraintes d'unicité pour éviter les doublons, vous pouvez donc relancer l'amorçage en toute sécurité si nécessaire.
 
    ```bash
    npm run db:seed
    ```
-    
-   If you ever need to reset, delete or rename the `db.sqlite` file before reseeding.
 
-5. **Drizzle Studio:**
-   To open Drizzle Studio, a GUI for your database:
+   Si jamais vous avez besoin de réinitialiser, supprimez ou renommez le fichier `db.sqlite` avant de réamorcer.
+
+5. **Drizzle Studio :**
+   Pour ouvrir Drizzle Studio, une interface graphique pour votre base de données :
 
    ```bash
    npm run db:studio
    ```
 
-## Building for Production
+## Construction pour la production
 
-To create a production-ready version of your app:
+Pour créer une version prête pour la production de votre application :
 
 ```bash
 npm run build
 ```
 
-This will output the optimized build to the `build` directory (or as configured by your SvelteKit adapter).
+Cela affichera la build optimisée dans le répertoire `build` (ou tel que configuré par votre adaptateur SvelteKit).
 
-You can preview the production build locally with:
+Vous pouvez prévisualiser la build de production localement avec :
 
 ```bash
 npm run preview
 ```
 
-> **Deployment:** To deploy your app, you may need to install and configure a SvelteKit [adapter](https://kit.svelte.dev/docs/adapters) specific to your target deployment environment (e.g., Vercel, Netlify, Node server). The current setup uses `@sveltejs/adapter-auto` which tries to detect the environment.
+> **Déploiement :** Pour déployer votre application, vous devrez peut-être installer et configurer un [adaptateur](https://kit.svelte.dev/docs/adapters) SvelteKit spécifique à votre environnement de déploiement cible (par exemple, Vercel, Netlify, serveur Node). La configuration actuelle utilise `@sveltejs/adapter-auto` qui tente de détecter l'environnement.
 
-## Code Quality & Testing
+## Qualité du code et tests
 
-1. **Formatting:**
-   To automatically format your code using Prettier:
+1. **Formatage :**
+   Pour formater automatiquement votre code à l'aide de Prettier :
 
    ```bash
    npm run format
    ```
 
-2. **Linting:**
-   To check for code style issues and potential errors with ESLint and Prettier:
+2. **Linting :**
+   Pour vérifier les problèmes de style de code et les erreurs potentielles avec ESLint et Prettier :
 
    ```bash
    npm run lint
    ```
 
-3. **Type Checking:**
-   To perform static type checking with TypeScript:
+3. **Vérification des types :**
+   Pour effectuer une vérification statique des types avec TypeScript :
 
    ```bash
    npm run check
    ```
 
-   Or to run in watch mode:
+   Ou pour exécuter en mode surveillance :
 
    ```bash
    npm run check:watch
    ```
 
-4. **Unit Tests:**
-   To run unit tests using Vitest:
+4. **Tests unitaires :**
+   Pour exécuter des tests unitaires à l'aide de Vitest :
 
    ```bash
    npm run test:unit
    ```
 
-5. **End-to-End Tests:**
-   To run end-to-end tests using Playwright:
+5. **Tests de bout en bout :**
+   Pour exécuter des tests de bout en bout à l'aide de Playwright :
 
    ```bash
    npm run test:e2e
    ```
 
-   Make sure to install Playwright browsers if you haven't already: `npx playwright install`
+   Assurez-vous d'installer les navigateurs Playwright si vous ne l'avez pas déjà fait : `npx playwright install`
 
-6. **Run all tests:**
+6. **Exécuter tous les tests :**
 
    ```bash
    npm run test
    ```
 
-## Available Scripts
+## Scripts disponibles
 
-Here's a summary of the main scripts available in `package.json`:
+Voici un résumé des principaux scripts disponibles dans `package.json` :
 
-- `npm run dev`: Starts the development server.
-- `npm run build`: Builds the application for production.
-- `npm run preview`: Previews the production build locally.
-- `npm run check`: Runs Svelte check and TypeScript type checking.
-- `npm run format`: Formats code with Prettier.
-- `npm run lint`: Lints code with ESLint and Prettier.
-- `npm run test`: Runs all unit and e2e tests.
-- `npm run test:unit`: Runs unit tests with Vitest.
-- `npm run test:e2e`: Runs end-to-end tests with Playwright.
-- `npm run db:push`: Pushes schema changes to the database (development).
-- `npm run db:migrate`: Applies database migrations.
-- `npm run db:studio`: Opens Drizzle Studio.
-- `npm run db:seed`: Seeds the database with initial data.
+- `npm run dev` : Démarre le serveur de développement.
+- `npm run build` : Construit l'application pour la production.
+- `npm run preview` : Prévisualise la build de production localement.
+- `npm run check` : Exécute la vérification Svelte et la vérification des types TypeScript.
+- `npm run format` : Formate le code avec Prettier.
+- `npm run lint` : Linte le code avec ESLint et Prettier.
+- `npm run test` : Exécute tous les tests unitaires et e2e.
+- `npm run test:unit` : Exécute des tests unitaires avec Vitest.
+- `npm run test:e2e` : Exécute des tests de bout en bout avec Playwright.
+- `npm run db:push` : Envoie les modifications de schéma à la base de données (développement).
+- `npm run db:migrate` : Applique les migrations de base de données.
+- `npm run db:studio` : Ouvre Drizzle Studio.
+- `npm run db:seed` : Amorce la base de données avec les données initiales.
 
-Refer to `package.json` for the full list of scripts and their configurations.
+Se référer à `package.json` pour la liste complète des scripts et leurs configurations.
