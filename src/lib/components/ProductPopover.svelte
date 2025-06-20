@@ -10,6 +10,7 @@
 
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { fly } from 'svelte/transition';
 	import { theme } from '$lib/stores/themeStore';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -38,12 +39,14 @@
 		role="button"
 		tabindex="0"
 		on:click={() => dispatch('close')}
-		on:keydown={() => dispatch('close')}
+		on:keydown={(e) => e.key === 'Escape' && dispatch('close')}
 	></div>
 	<div
+		in:fly={{ y: 200, duration: 300 }}
+		out:fly={{ y: 200, duration: 300 }}
 		class="relative {currentTheme === 'dark'
-			? 'bg-gray-900'
-			: 'bg-gray-100'}  overflow-auto rounded-lg p-6"
+			? 'bg-neutral-900'
+			: 'bg-gray-100'} overflow-auto rounded-lg p-6"
 	>
 		<div class="mt-2 grid grid-cols-2 gap-2">
 			<div class="m-2 basis-1/2">
@@ -81,14 +84,16 @@
 				</p>
 				{#if item.size}
 					<p class="text-sm {currentTheme === 'dark' ? 'text-neutral-400' : 'text-neutral-600'}">
-						Size: {item.size}
+						Taille: {item.size}
 					</p>
 				{/if}
 			</div>
 		</div>
 		<div class="mt-4">
 			<button
-				class="w-full rounded-lg bg-blue-500 py-2 text-white transition-colors hover:bg-blue-600"
+				class="w-full rounded-lg {currentTheme === 'dark'
+					? 'bg-amber-500 text-neutral-900 hover:bg-amber-600'
+					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
 				on:click={() => dispatch('close')}
 			>
 				Close

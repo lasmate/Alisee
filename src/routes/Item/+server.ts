@@ -1,4 +1,4 @@
-import type { RequestHandler } from './$types';
+import type { RequestHandler } from '@sveltejs/kit';
 import { getItemById } from '$lib/server/db/itemService';
 
 export const GET: RequestHandler = async ({ url }) => {

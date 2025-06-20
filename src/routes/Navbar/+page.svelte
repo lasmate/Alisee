@@ -50,7 +50,7 @@
 		<div
 			class="flex h-10 basis-1/8 items-center justify-center rounded-bl-3xl border-1 text-center {currentTheme ===
 			'dark'
-				? 'bg-black'
+				? 'bg-neutral-900'
 				: 'bg-white'} transition-colors duration-300"
 		>
 			<button on:click={() => (window.location.href = '/')}
@@ -60,7 +60,7 @@
 		<div
 			class="flex h-10 basis-1/4 items-center justify-center border-1 text-center {currentTheme ===
 			'dark'
-				? 'bg-black'
+				? 'bg-neutral-900'
 				: 'bg-white'} transition-colors duration-300"
 		>
 			<button on:click={() => (window.location.href = '/Cart')}
@@ -70,13 +70,13 @@
 		<div
 			class="h-25 basis-1/4 rounded-b-3xl border-1 bg-[url(img\silusins.png)] bg-contain bg-center bg-no-repeat bg-origin-border {currentTheme ===
 			'dark'
-				? 'bg-black'
+				? 'bg-neutral-900'
 				: 'bg-white'} transition-colors duration-300"
 		></div>
 		<div
 			class="flex h-10 basis-1/4 items-center justify-center border-1 text-center {currentTheme ===
 			'dark'
-				? 'bg-black'
+				? 'bg-neutral-900'
 				: 'bg-white'} transition-colors duration-300"
 		>
 			<button on:click={() => (window.location.href = '/account')}
@@ -86,7 +86,7 @@
 		<div
 			class="flex h-10 basis-1/8 items-center justify-center rounded-br-3xl border-1 text-center {currentTheme ===
 			'dark'
-				? 'bg-black'
+				? 'bg-neutral-900'
 				: 'bg-white'} transition-colors duration-300"
 		>
 			<button on:click={toggleTheme}

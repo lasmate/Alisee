@@ -21,6 +21,6 @@
 	});
 </script>
 
-<div class="light:bg-white min-h-screen bg-black transition-colors duration-300 dark:bg-black">
+<div >
 	{@render children()}
 </div>
