@@ -6,7 +6,6 @@
 		size?: string;
 		price: number;
 	}
-
 </script>
 
 <script lang="ts">
@@ -21,10 +20,10 @@
 	let selectedImageId: number | null = null;
 
 	// Function to get the selected image details
-	$: selectedImage = selectedImageId ? images.find(img => img.id === selectedImageId) : null;
+	$: selectedImage = selectedImageId ? images.find((img) => img.id === selectedImageId) : null;
 
 	// strongly-typed dispatcher
-	const dispatch = createEventDispatcher<{ 
+	const dispatch = createEventDispatcher<{
 		close: void;
 		addToCart: { item: Item; customization?: { id: number; name: string; img_path: string } };
 	}>();
@@ -44,20 +43,20 @@
 				const res = await fetch('/api/images/count');
 				const data = await res.json();
 				imgCount = data.count || 0;
-				
+
 				// Fetch all available images
 				if (imgCount > 0) {
 					const imagePromises = [];
 					for (let i = 1; i <= imgCount; i++) {
 						imagePromises.push(
 							fetch(`/api/images/${i}`)
-								.then(res => res.ok ? res.json() : null)
+								.then((res) => (res.ok ? res.json() : null))
 								.catch(() => null)
 						);
 					}
-					
+
 					const imageResults = await Promise.all(imagePromises);
-					images = imageResults.filter(img => img !== null);
+					images = imageResults.filter((img) => img !== null);
 				}
 			} catch {
 				imgCount = 0;
@@ -92,7 +91,7 @@
 					alt="Product ${item.id} image"
 					height={10}
 					width={10}
-					class="h-60 w-full rounded-xl object-cover opacity-75"
+					class="h-100 w-full rounded-xl object-cover"
 				/>
 			</div>
 			<div class="basis-2/3">
@@ -113,21 +112,23 @@
 					</p>
 				</div>
 				{#if images.length > 0}
-					<div class="grid grid-cols-4 md:grid-cols-8 gap-1.5 my-1 max-h-60 md:max-h-80 overflow-y-auto overflow-x-hidden">
+					<div
+						class="my-1 grid max-h-60 grid-cols-4 gap-1.5 overflow-x-hidden overflow-y-auto md:max-h-80 md:grid-cols-8"
+					>
 						{#each images as image}
 							<button
-								class="relative inline-block w-16 h-16 md:w-12 md:h-12 rounded-full overflow-hidden transition-all duration-200 border-2"
+								class="relative inline-block h-18 w-18 overflow-hidden rounded-full border-2 transition-all duration-200 md:h-14 md:w-14"
 								class:border-amber-500={selectedImageId === image.id}
 								class:border-transparent={selectedImageId !== image.id}
 								class:ring-2={selectedImageId === image.id}
 								class:ring-amber-400={selectedImageId === image.id}
-								on:click={() => selectedImageId = image.id}
+								on:click={() => (selectedImageId = image.id)}
 								title={image.name}
 							>
 								<img
 									src={`src/img/Visuel/${image.img_path}`}
 									alt={image.name}
-									class="w-full h-full object-cover rounded-full"
+									class="h-full w-full rounded-full object-cover"
 									loading="lazy"
 								/>
 							</button>
@@ -147,8 +148,14 @@
 					</p>
 				{/if}
 				{#if selectedImage}
-					<div class="mt-3 p-2 rounded-lg {currentTheme === 'dark' ? 'bg-neutral-800' : 'bg-gray-200'}">
-						<p class="text-sm font-medium {currentTheme === 'dark' ? 'text-neutral-200' : 'text-neutral-800'}">
+					<div
+						class="mt-3 rounded-lg p-2 {currentTheme === 'dark' ? 'bg-neutral-800' : 'bg-gray-200'}"
+					>
+						<p
+							class="text-sm font-medium {currentTheme === 'dark'
+								? 'text-neutral-200'
+								: 'text-neutral-800'}"
+						>
 							Personnalisation sélectionnée:
 						</p>
 						<p class="text-xs {currentTheme === 'dark' ? 'text-neutral-400' : 'text-neutral-600'}">
@@ -156,16 +163,14 @@
 						</p>
 					</div>
 				{/if}
-				<div>
-
-				</div>
+				<div></div>
 			</div>
 		</div>
 		<div class="mt-4">
 			<button
 				class="w-full rounded-lg {currentTheme === 'dark'
 					? 'bg-amber-500 text-neutral-900 hover:bg-amber-600'
-					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none transition-colors"
+					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold transition-colors focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
 				on:click={() => dispatch('addToCart', { item, customization: selectedImage || undefined })}
 			>
 				Ajouter au panier

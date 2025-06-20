@@ -46,7 +46,7 @@
 	class="group relative w-full max-w-[350px] overflow-hidden rounded-xl {currentTheme === 'dark'
 		? 'bg-neutral-900'
 		: 'bg-white'} transition-colors duration-300"
-	>
+>
 	<div
 		class="absolute top-0 right-5 h-px w-80 bg-gradient-to-l from-transparent {currentTheme ===
 		'dark'
@@ -106,15 +106,9 @@
 				on:click={() => (showPopover = true)}
 				class="w-full rounded-lg {currentTheme === 'dark'
 					? 'bg-amber-500 text-neutral-900 hover:bg-amber-600'
-					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none">
+					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
+			>
 				Customiser
-			</button>
-
-			<button
-				class="w-full rounded-lg {currentTheme === 'dark'
-					? 'bg-neutral-700 text-neutral-200 hover:bg-neutral-600'
-					: 'bg-neutral-300 text-neutral-800 hover:bg-neutral-400'} px-4 py-2 text-sm font-semibold transition-colors duration-300 focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2 focus:outline-none">
-				Ajouter au panier
 			</button>
 		</div>
 	</div>

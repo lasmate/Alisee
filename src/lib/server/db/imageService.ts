@@ -18,7 +18,7 @@ export async function getImgById(id: number): Promise<ImgDetails | null> {
 		.select({
 			id: img_list.id,
 			name: img_list.name,
-			img_path: img_list.img_path	
+			img_path: img_list.img_path
 		})
 		.from(img_list)
 		.where(eq(img_list.id, id))

@@ -14,13 +14,13 @@ import { error } from '@sveltejs/kit';
 export const GET: RequestHandler = async ({ params }) => {
 	try {
 		const id = parseInt(params.id);
-		
+
 		if (isNaN(id)) {
 			throw error(400, 'Invalid image ID');
 		}
 
 		const imageDetails = await getImgById(id);
-		
+
 		if (!imageDetails) {
 			throw error(404, 'Image not found');
 		}
@@ -31,11 +31,11 @@ export const GET: RequestHandler = async ({ params }) => {
 		});
 	} catch (err) {
 		console.error('Error fetching image details:', err);
-		
+
 		if (err && typeof err === 'object' && 'status' in err) {
 			throw err; // Re-throw SvelteKit errors
 		}
-		
+
 		throw error(500, 'Failed to fetch image details');
 	}
 };
