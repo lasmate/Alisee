@@ -17,9 +17,17 @@
 	import { browser } from '$app/environment';
 
 	let imgCount = 0;
+	let images: { id: number; name: string; img_path: string }[] = [];
+	let selectedImageId: number | null = null;
+
+	// Function to get the selected image details
+	$: selectedImage = selectedImageId ? images.find(img => img.id === selectedImageId) : null;
 
 	// strongly-typed dispatcher
-	const dispatch = createEventDispatcher<{ close: void }>();
+	const dispatch = createEventDispatcher<{ 
+		close: void;
+		addToCart: { item: Item; customization?: { id: number; name: string; img_path: string } };
+	}>();
 
 	let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
 
@@ -36,9 +44,24 @@
 				const res = await fetch('/api/images/count');
 				const data = await res.json();
 				imgCount = data.count || 0;
-				//console.log('imgCount:', imgCount);
+				
+				// Fetch all available images
+				if (imgCount > 0) {
+					const imagePromises = [];
+					for (let i = 1; i <= imgCount; i++) {
+						imagePromises.push(
+							fetch(`/api/images/${i}`)
+								.then(res => res.ok ? res.json() : null)
+								.catch(() => null)
+						);
+					}
+					
+					const imageResults = await Promise.all(imagePromises);
+					images = imageResults.filter(img => img !== null);
+				}
 			} catch {
 				imgCount = 0;
+				images = [];
 			}
 		})();
 		return () => unsubscribe();
@@ -89,18 +112,27 @@
 						${item.price.toFixed(2)}
 					</p>
 				</div>
-				{#if imgCount > 0}
+				{#if images.length > 0}
 					<div class="grid grid-cols-4 md:grid-cols-8 gap-1.5 my-1 max-h-60 md:max-h-80 overflow-y-auto overflow-x-hidden">
-						{#each Array(imgCount) as _, i}
-							<span
-								class="inline-block w-16 h-16 md:w-12 md:h-12 rounded-full transition-colors"
-								class:bg-white={currentTheme === 'dark'}
-								class:bg-black={currentTheme === 'light'}>
-								
-							</span>
+						{#each images as image}
+							<button
+								class="relative inline-block w-16 h-16 md:w-12 md:h-12 rounded-full overflow-hidden transition-all duration-200 border-2"
+								class:border-amber-500={selectedImageId === image.id}
+								class:border-transparent={selectedImageId !== image.id}
+								class:ring-2={selectedImageId === image.id}
+								class:ring-amber-400={selectedImageId === image.id}
+								on:click={() => selectedImageId = image.id}
+								title={image.name}
+							>
+								<img
+									src={`src/img/Visuel/${image.img_path}`}
+									alt={image.name}
+									class="w-full h-full object-cover rounded-full"
+									loading="lazy"
+								/>
+							</button>
 						{/each}
 					</div>
-				
 				{/if}
 				<p
 					class="text-sm leading-[1.5] {currentTheme === 'dark'
@@ -114,6 +146,16 @@
 						Taille: {item.size}
 					</p>
 				{/if}
+				{#if selectedImage}
+					<div class="mt-3 p-2 rounded-lg {currentTheme === 'dark' ? 'bg-neutral-800' : 'bg-gray-200'}">
+						<p class="text-sm font-medium {currentTheme === 'dark' ? 'text-neutral-200' : 'text-neutral-800'}">
+							Personnalisation sélectionnée:
+						</p>
+						<p class="text-xs {currentTheme === 'dark' ? 'text-neutral-400' : 'text-neutral-600'}">
+							{selectedImage.name}
+						</p>
+					</div>
+				{/if}
 				<div>
 
 				</div>
@@ -123,10 +165,10 @@
 			<button
 				class="w-full rounded-lg {currentTheme === 'dark'
 					? 'bg-amber-500 text-neutral-900 hover:bg-amber-600'
-					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
-				on:click={() => dispatch('close')}
+					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none transition-colors"
+				on:click={() => dispatch('addToCart', { item, customization: selectedImage || undefined })}
 			>
-				Close
+				Ajouter au panier
 			</button>
 		</div>
 	</div>
