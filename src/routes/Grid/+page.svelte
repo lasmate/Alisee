@@ -1,3 +1,5 @@
+<!-- Module de grille de produits -->
+
 <script lang="ts">
 	import Item from '../Item/+page.svelte';
 	import { onMount } from 'svelte';

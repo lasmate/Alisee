@@ -1,8 +1,15 @@
+/**
+ * Exposes an endpoint to retrieve the total number of products stored.
+ * Responds with a JSON object containing the product count.
+ */
 import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db';
 import { item } from '$lib/server/db/schema/Item';
 import { count } from 'drizzle-orm';
-
+/**
+ * Handles GET requests to fetch the product count from the database.
+ * @returns A JSON response with the total product count or an error message.
+ */
 export const GET: RequestHandler = async () => {
 	try {
 		const result = await db.select({ value: count() }).from(item);

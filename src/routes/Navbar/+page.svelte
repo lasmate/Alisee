@@ -1,3 +1,4 @@
+<!-- Module de barre de navigation -->
 <script lang="ts">
 	import { theme, toggleTheme } from '$lib/stores/themeStore';
 	import { browser } from '$app/environment';

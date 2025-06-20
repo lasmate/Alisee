@@ -1,5 +1,5 @@
 import { db } from './index';
-import { ImgList } from './schema/ImgList';
+import { img_list } from './schema/ImgList';
 import { eq } from 'drizzle-orm';
 
 export interface ImgDetails {
@@ -16,12 +16,12 @@ export interface ImgDetails {
 export async function getImgById(id: number): Promise<ImgDetails | null> {
 	const [row] = await db
 		.select({
-			id: ImgList.id,
-			name: ImgList.name,
-			img_path: ImgList.ImgPath
+			id: img_list.id,
+			name: img_list.name,
+			img_path: img_list.img_path	
 		})
-		.from(ImgList)
-		.where(eq(ImgList.id, id))
+		.from(img_list)
+		.where(eq(img_list.id, id))
 		.limit(1);
 
 	if (!row) return null;

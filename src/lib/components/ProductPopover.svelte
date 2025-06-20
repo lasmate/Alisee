@@ -6,12 +6,7 @@
 		size?: string;
 		price: number;
 	}
-	export interface ImgDetails{
-		id: number;
-		name: string;
-		img_path: string;
 
-	}
 </script>
 
 <script lang="ts">
@@ -68,16 +63,16 @@
 			: 'bg-gray-100'} overflow-auto rounded-lg p-6"
 	>
 		<div class="mt-2 grid grid-cols-2 gap-2">
-			<div class="m-2 basis-1/2">
+			<div class="m-2 basis-1/3">
 				<img
 					src={`src/img/Produits/${item.id}.jpg`}
 					alt="Product ${item.id} image"
 					height={10}
 					width={10}
-					class="h-52 w-full rounded-xl object-cover opacity-75"
+					class="h-60 w-full rounded-xl object-cover opacity-75"
 				/>
 			</div>
-			<div class="basis-1/2">
+			<div class="basis-2/3">
 				<div class="flex flex-row items-center justify-between pt-2">
 					<h3
 						class="text-xl font-semibold {currentTheme === 'dark'
@@ -95,14 +90,17 @@
 					</p>
 				</div>
 				{#if imgCount > 0}
-					<div class="flex flex-wrap space-x-2 my-2">
+					<div class="grid grid-cols-4 md:grid-cols-8 gap-1.5 my-1 max-h-60 md:max-h-80 overflow-y-auto overflow-x-hidden">
 						{#each Array(imgCount) as _, i}
-							<span class="inline-block w-3 h-3 rounded-full transition-colors"
+							<span
+								class="inline-block w-16 h-16 md:w-12 md:h-12 rounded-full transition-colors"
 								class:bg-white={currentTheme === 'dark'}
-								class:bg-black={currentTheme === 'light'}
-							></span>
+								class:bg-black={currentTheme === 'light'}>
+								
+							</span>
 						{/each}
 					</div>
+				
 				{/if}
 				<p
 					class="text-sm leading-[1.5] {currentTheme === 'dark'

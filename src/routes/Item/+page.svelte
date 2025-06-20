@@ -1,3 +1,4 @@
+<!-- Module de détail du produit -->
 <script>
 	import ProductPopover from '$lib/components/ProductPopover.svelte';
 	import { Motion, useMotionTemplate, useMotionValue } from 'svelte-motion';
