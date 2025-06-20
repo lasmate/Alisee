@@ -6,7 +6,7 @@
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle_ORM-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black)
 ![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Version](https://img.shields.io/badge/version-v0.0.5-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-v0.0.6-blue?style=for-the-badge)
 
 Ceci est un projet Svelte initialisé avec SvelteKit, utilisant Tailwind CSS pour le style et Drizzle ORM pour les interactions avec la base de données.
 
