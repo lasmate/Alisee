@@ -56,7 +56,7 @@
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
-			<button on:click={() => (window.location.href = '/')}
+			<button class="w-full h-full flex items-center justify-center" on:click={() => (window.location.href = '/')}
 				><img src={highContrastSrc} alt="HighContrastToggle" class="inline-block h-8 w-8" />
 			</button>
 		</div>
@@ -66,7 +66,7 @@
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
-			<button on:click={() => (window.location.href = '/Cart')}
+			<button class="w-full h-full flex items-center justify-center" on:click={() => (window.location.href = '/Cart')}
 				><img src={cartIconSrc} alt="Cart" class="inline-block h-8 w-8" />
 			</button>
 		</div>
@@ -82,7 +82,7 @@
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
-			<button on:click={()=> showPopover = true}
+			<button class="w-full h-full flex items-center justify-center" on:click={()=> showPopover = true}
 				>
 				<img src={accountIconSrc} alt="Account profile" class="inline-block h-8 w-8" />
 			</button>
@@ -93,7 +93,7 @@
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
-			<button on:click={toggleTheme}>
+			<button class="w-full h-full flex items-center justify-center" on:click={toggleTheme}>
 				<img src={iconSrc} alt="Toggle theme" class="inline-block h-8 w-8" />
 			</button>
 		</div>
