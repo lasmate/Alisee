@@ -1,6 +1,7 @@
 <!-- Module de barre de navigation -->
 <script lang="ts">
 	import { theme, toggleTheme } from '$lib/stores/themeStore';
+	import { userStore } from '$lib/stores/userStore';
 	import UserPopover from './UserPopover.svelte';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
@@ -82,9 +83,14 @@
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
-			<button class="w-full h-full flex items-center justify-center" on:click={()=> showPopover = true}
-				>
-				<img src={accountIconSrc} alt="Account profile" class="inline-block h-8 w-8" />
+			<button class="w-full h-full flex items-center justify-center gap-2 px-2" on:click={()=> showPopover = true}>
+				{#if $userStore}
+					<!-- Show user name when logged in -->
+					<span class="text-xs font-bold {currentTheme === 'dark' ? 'text-white' : 'text-neutral-900'} truncate max-w-20">
+						{$userStore.name}
+					</span>
+				{/if}
+				<img src={accountIconSrc} alt="Account profile" class="inline-block h-8 w-8 flex-shrink-0" />
 			</button>
 		</div>
 		<div
