@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { theme } from '$lib/stores/themeStore';
+	import { userStore } from '$lib/stores/userStore';
 	import { onMount } from 'svelte';
 
 	let { children } = $props();
@@ -16,6 +17,9 @@
 				document.documentElement.classList.add('light');
 			}
 		});
+
+		// Initialize user store from sessionStorage
+		userStore.init();
 
 		return unsubscribe;
 	});
