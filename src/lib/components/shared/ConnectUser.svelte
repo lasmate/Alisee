@@ -4,10 +4,10 @@
     
     const dispatch = createEventDispatcher();
     
-    let email = '';
-    let password = '';
-    let errorMessage = '';
-    let isLoading = false;
+    let email: string = '';
+    let password: string = '';
+    let errorMessage: string | null = null;
+    let isLoading: boolean = false;
 
     async function handleLogin() {
         isLoading = true;
