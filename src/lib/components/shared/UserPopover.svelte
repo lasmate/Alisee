@@ -63,7 +63,17 @@ onDestroy(() => {
             </div>
             {#if showRegister}
                 <div class="fixed inset-0 z-20 flex items-center justify-center">
-                    <div class="absolute inset-0 bg-black/50" on:click={() => (showRegister = false)}></div>
+                    <div
+                        class="absolute inset-0 bg-black/50"
+                        role="button"
+                        tabindex="0"
+                        on:click={() => (showRegister = false)}
+                        on:keydown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                showRegister = false;
+                            }
+                        }}
+                    ></div>
                     <div in:fly={{ y: 200, duration: 300 }} out:fly={{ y: 200, duration: 300 }} class="relative rounded-lg p-6 {currentTheme === 'dark' ? 'bg-neutral-900' : 'bg-gray-100'}">
                         <RegisterUser />
                     </div>
@@ -71,7 +81,17 @@ onDestroy(() => {
             {/if}
             {#if showConnect}
                 <div class="fixed inset-0 z-20 flex items-center justify-center">
-                    <div class="absolute inset-0 bg-black/50" on:click={() => (showConnect = false)}></div>
+                    <div
+                        class="absolute inset-0 bg-black/50"
+                        role="button"
+                        tabindex="0"
+                        on:click={() => (showConnect = false)}
+                        on:keydown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                showConnect = false;
+                            }
+                        }}
+                    ></div>
                     <div in:fly={{ y: 200, duration: 300 }} out:fly={{ y: 200, duration: 300 }} class="relative rounded-lg p-6 {currentTheme === 'dark' ? 'bg-neutral-900' : 'bg-gray-100'}">
                         <ConnectUser on:loginSuccess={() => { showConnect = false; dispatch('close'); }} />
                     </div>
