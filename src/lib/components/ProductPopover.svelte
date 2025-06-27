@@ -129,7 +129,7 @@
 				{#if selectedImage}
 					<div class="mt-3 rounded-lg p-2 {currentTheme === 'dark' ? 'bg-neutral-800' : 'bg-gray-200'}">
 						<p class="text-sm font-medium {currentTheme === 'dark' ? 'text-neutral-200' : 'text-neutral-800'}">
-							Personnalisation sélectionnée:
+							Personnalisation sélectionnée: {selectedImage.name}
 						</p>
 					</div>
 				{/if}

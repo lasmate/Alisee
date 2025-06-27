@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
-import { item } from './schema/Item.ts';
+import { item } from '../schema/Item.ts';
 
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {

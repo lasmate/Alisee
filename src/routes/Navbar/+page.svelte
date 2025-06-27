@@ -24,7 +24,7 @@
 		theme.set(currentTheme);
 		return () => unsubscribe();
 	});
-
+	// Define icon sources based on the current theme
 	$: iconSrc =
 		currentTheme === 'dark'
 			? '/src/img/Icon/light_mode_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
@@ -46,7 +46,7 @@
 			: '/src/img/Icon/account_circle_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
 </script>
 
-{#if mounted}
+{#if mounted}<!-- Ensure the component is mounted before rendering  to prevent style mismatches between icons and backgrounds -->
 	<div class="sticky z-10 flex flex-row place-content-around rounded-b-3xl text-white">
 		<div
 			class="flex h-10 basis-1/8 items-center justify-center rounded-bl-3xl border-1 text-center {currentTheme ===

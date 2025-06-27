@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
-import { users } from './schema/Users.ts';
+import { users } from '../schema/Users.ts';
 
 interface UserData {
 	name: string;
