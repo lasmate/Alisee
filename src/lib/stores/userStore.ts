@@ -13,7 +13,7 @@ export type User = {
 
 // User store to manage authentication state
 function createUserStore() {
-	const { subscribe, set, update } = writable<User | null>(null);
+	const { subscribe, set } = writable<User | null>(null);
 
 	return {
 		subscribe,

@@ -75,7 +75,7 @@ onDestroy(() => {
                         }}
                     ></div>
                     <div in:fly={{ y: 200, duration: 300 }} out:fly={{ y: 200, duration: 300 }} class="relative rounded-lg p-6 {currentTheme === 'dark' ? 'bg-neutral-900' : 'bg-gray-100'}">
-                        <RegisterUser />
+                        <RegisterUser on:registerSuccess={() => { showRegister = false; location.reload(); }} />
                     </div>
                 </div>
             {/if}
