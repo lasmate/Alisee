@@ -6,11 +6,8 @@ import { browser } from '$app/environment';
 import DisconnectUser from './DisconnectUser.svelte';
 import RegisterUser from './RegisterUser.svelte';
 import ConnectUser from './ConnectUser.svelte';
-import { writable } from 'svelte/store';
 import { createEventDispatcher } from 'svelte';
-
-// Simulated user store (replace with real auth logic)
-export const user = writable<{ name: string } | null>(null);
+import { userStore } from '$lib/stores/userStore';
 
 let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
 const unsubscribe = theme.subscribe((themeValue) => (currentTheme = themeValue));
@@ -45,7 +42,7 @@ onDestroy(() => {
         out:fly={{ y: 200, duration: 300 }}
         class="relative {currentTheme === 'dark' ? 'bg-neutral-900' : 'bg-gray-100'} overflow-auto rounded-lg p-6 min-w-[320px] max-w-[90vw]"
     >
-        {#if $user}
+        {#if $userStore}
             <!-- Connected: show disconnect module -->
             <DisconnectUser />
         {:else}
@@ -76,7 +73,7 @@ onDestroy(() => {
                 <div class="fixed inset-0 z-20 flex items-center justify-center">
                     <div class="absolute inset-0 bg-black/50" on:click={() => (showConnect = false)}></div>
                     <div in:fly={{ y: 200, duration: 300 }} out:fly={{ y: 200, duration: 300 }} class="relative rounded-lg p-6 {currentTheme === 'dark' ? 'bg-neutral-900' : 'bg-gray-100'}">
-                        <ConnectUser />
+                        <ConnectUser on:loginSuccess={() => { showConnect = false; dispatch('close'); }} />
                     </div>
                 </div>
             {/if}
