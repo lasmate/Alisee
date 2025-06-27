@@ -51,7 +51,7 @@
 {#if mounted}<!-- Ensure the component is mounted before rendering  to prevent style mismatches between icons and backgrounds -->
 	<div class="sticky z-10 flex flex-row place-content-around rounded-b-3xl text-white">
 		<div
-			class="flex h-10 basis-1/8 items-center justify-center rounded-bl-3xl border-1 text-center {currentTheme ===
+			class="flex h-10 md:basis-1/8 basis-1/8 items-center justify-center rounded-bl-3xl border-1 text-center {currentTheme ===
 			'dark'
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
@@ -61,7 +61,7 @@
 			</button>
 		</div>
 		<div
-			class="flex h-10 basis-1/4 items-center justify-center border-1 text-center {currentTheme ===
+			class="flex h-10 md:basis-1/4 basis-1/8 items-center justify-center border-1 text-center {currentTheme ===
 			'dark'
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
@@ -71,13 +71,13 @@
 			</button>
 		</div>
 		<div
-			class="h-25 basis-1/4 rounded-b-3xl border-1 bg-[url(img\silusins.png)] bg-contain bg-center bg-no-repeat bg-origin-border {currentTheme ===
+			class="h-20 md:basis-1/4 basis-4/8 rounded-b-3xl border-1 bg-[url('/img/silusins.png')] bg-contain bg-top bg-no-repeat bg-origin-border {currentTheme ===
 			'dark'
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		></div>
 		<div
-			class="flex h-10 basis-1/4 items-center justify-center border-1 text-center {currentTheme ===
+			class="flex h-10 md:basis-1/4 basis-1/8 items-center justify-center border-1 text-center {currentTheme ===
 			'dark'
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
@@ -88,7 +88,7 @@
 			</button>
 		</div>
 		<div
-			class="flex h-10 basis-1/8 items-center justify-center rounded-br-3xl border-1 text-center {currentTheme ===
+			class="flex h-10 md:basis-1/8 basis-1/8 items-center justify-center rounded-br-3xl border-1 text-center {currentTheme ===
 			'dark'
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
