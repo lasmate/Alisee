@@ -27,23 +27,23 @@
 	// Define icon sources based on the current theme
 	$: iconSrc =
 		currentTheme === 'dark'
-			? '/src/img/Icon/light_mode_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
-			: '/src/img/Icon/dark_mode_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
+			? '/img/Icon/light_mode_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
+			: '/img/Icon/dark_mode_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
 
 	$: highContrastSrc =
 		currentTheme === 'dark'
-			? '/src/img/Icon/toggle_off_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
-			: '/src/img/Icon/toggle_on_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
+			? '/img/Icon/toggle_off_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
+			: '/img/Icon/toggle_on_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
 
 	$: cartIconSrc =
 		currentTheme === 'dark'
-			? '/src/img/Icon/shopping_cart_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
-			: '/src/img/Icon/shopping_cart_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
+			? '/img/Icon/shopping_cart_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
+			: '/img/Icon/shopping_cart_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
 
 	$: accountIconSrc =
 		currentTheme === 'dark'
-			? '/src/img/Icon/account_circle_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
-			: '/src/img/Icon/account_circle_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
+			? '/img/Icon/account_circle_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
+			: '/img/Icon/account_circle_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
 </script>
 
 {#if mounted}<!-- Ensure the component is mounted before rendering  to prevent style mismatches between icons and backgrounds -->

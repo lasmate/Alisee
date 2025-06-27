@@ -67,7 +67,7 @@
 		<div class="space-y-2">
 			<!-- Product image -->
 			<img
-				src={`src/img/Produits/${productId}.jpg`}
+				src={`/img/Produits/${productId}.jpg`}
 				alt="Product ${productId} image"
 				height={10}
 				width={10}

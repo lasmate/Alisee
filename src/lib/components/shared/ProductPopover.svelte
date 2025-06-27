@@ -77,7 +77,7 @@
 		<div class="mt-2 grid grid-cols-2 gap-2">
 			<div class="m-2 basis-1/3">
 				<img
-					src={`src/img/Produits/${item.id}.jpg`}
+					src={`/img/Produits/${item.id}.jpg`}
 					alt="Product ${item.id}"
 					class="h-100 w-full rounded-xl object-cover"
 				/>
@@ -108,7 +108,7 @@
 								title={image.name}
 							>
 								<img
-									src={`src/img/Visuel/${image.img_path}`}
+									src={`/img/Visuel/${image.img_path}`}
 									alt={image.name}
 									class="h-full w-full rounded-full object-cover"
 									loading="lazy"
