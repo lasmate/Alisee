@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { theme } from '$lib/stores/themeStore';
-	import Navbar from './Navbar/+page.svelte';
+	import Navbar from '$lib/components/shared/Navbar.svelte';
 	import Grid from './Grid/+page.svelte';
 
 	// reactive theme value

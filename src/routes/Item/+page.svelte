@@ -1,6 +1,6 @@
 <!-- Module de détail du produit -->
 <script>
-	import ProductPopover from '$lib/components/ProductPopover.svelte';
+	import ProductPopover from '$lib/components/shared/ProductPopover.svelte';
 	import { Motion, useMotionTemplate, useMotionValue } from 'svelte-motion';
 	import { theme } from '$lib/stores/themeStore';
 	import { onMount } from 'svelte';

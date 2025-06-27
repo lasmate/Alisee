@@ -1,6 +1,6 @@
 <script lang="ts">
   import { theme } from '$lib/stores/themeStore';
-  import Navbar from '../Navbar/+page.svelte';
+  import Navbar from '$lib/components/shared/Navbar.svelte';
   import ProductsManagement from '$lib/components/admin/ProductsManagement.svelte';
   import UsersManagement from '$lib/components/admin/UsersManagement.svelte';
   import OrdersManagement from '$lib/components/admin/OrdersManagement.svelte';

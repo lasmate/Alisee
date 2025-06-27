@@ -96,3 +96,4 @@
 		</div>
 	</div>
 {/if}
+<!-- End of Navbar component -->
