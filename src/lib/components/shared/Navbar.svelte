@@ -1,8 +1,10 @@
 <!-- Module de barre de navigation -->
 <script lang="ts">
 	import { theme, toggleTheme } from '$lib/stores/themeStore';
+	import UserPopover from './UserPopover.svelte';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
+	let showPopover = false;
 
 	// start with a safe default
 	let currentTheme = 'dark';
@@ -55,8 +57,8 @@
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
 			<button on:click={() => (window.location.href = '/')}
-				><img src={highContrastSrc} alt="HighContrastToggle" class="inline-block h-8 w-8" /></button
-			>
+				><img src={highContrastSrc} alt="HighContrastToggle" class="inline-block h-8 w-8" />
+			</button>
 		</div>
 		<div
 			class="flex h-10 basis-1/4 items-center justify-center border-1 text-center {currentTheme ===
@@ -65,8 +67,8 @@
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
 			<button on:click={() => (window.location.href = '/Cart')}
-				><img src={cartIconSrc} alt="Cart" class="inline-block h-8 w-8" /></button
-			>
+				><img src={cartIconSrc} alt="Cart" class="inline-block h-8 w-8" />
+			</button>
 		</div>
 		<div
 			class="h-25 basis-1/4 rounded-b-3xl border-1 bg-[url(img\silusins.png)] bg-contain bg-center bg-no-repeat bg-origin-border {currentTheme ===
@@ -80,9 +82,10 @@
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
-			<button on:click={() => (window.location.href = '/account')}
-				><img src={accountIconSrc} alt="Account profile" class="inline-block h-8 w-8" /></button
-			>
+			<button on:click={()=> showPopover = true}
+				>
+				<img src={accountIconSrc} alt="Account profile" class="inline-block h-8 w-8" />
+			</button>
 		</div>
 		<div
 			class="flex h-10 basis-1/8 items-center justify-center rounded-br-3xl border-1 text-center {currentTheme ===
@@ -90,10 +93,13 @@
 				? 'bg-neutral-900 border-white'
 				: 'bg-white border-neutral-900'} transition-colors duration-300"
 		>
-			<button on:click={toggleTheme}
-				><img src={iconSrc} alt="Toggle theme" class="inline-block h-8 w-8" /></button
-			>
+			<button on:click={toggleTheme}>
+				<img src={iconSrc} alt="Toggle theme" class="inline-block h-8 w-8" />
+			</button>
 		</div>
 	</div>
 {/if}
 <!-- End of Navbar component -->
+ {#if showPopover}
+	<UserPopover on:close={() => (showPopover = false)} />
+{/if}
