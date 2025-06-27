@@ -6,9 +6,30 @@
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle_ORM-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black)
 ![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Version](https://img.shields.io/badge/version-v0.0.6-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-v0.0.7-blue?style=for-the-badge)
 
 Ceci est un projet Svelte initialisé avec SvelteKit, utilisant Tailwind CSS pour le style et Drizzle ORM pour les interactions avec la base de données.
+
+## Version Changelog
+
+### v0.0.7 (Décembre 2025)
+
+- ✨ **Système d'authentification complet** : Implémentation de la connexion/déconnexion des utilisateurs
+- 🔐 **Gestion des sessions** : Persistance des sessions utilisateur avec sessionStorage
+- 👤 **Affichage dynamique de l'utilisateur** : Le nom de l'utilisateur connecté apparaît dans la navbar
+- 🎨 **Interface utilisateur adaptive** : La navbar s'adapte automatiquement selon l'état de connexion
+- 🛡️ **Contrôle d'accès admin** : Bouton d'administration visible uniquement pour les comptes admin
+- 🚀 **Gestion des modales améliorée** : Fermeture automatique des modales après connexion réussie
+- 📱 **États de chargement** : Indicateurs visuels et gestion d'erreurs pour l'authentification
+- 🗄️ **API d'authentification** : Endpoints sécurisés pour la connexion et déconnexion
+
+### v0.0.6 et versions antérieures
+
+- 🏗️ Configuration initiale du projet avec SvelteKit, Tailwind CSS et Drizzle ORM
+- 📊 Interface d'administration pour la gestion des utilisateurs et produits
+- 🎨 Système de thèmes (clair/sombre) avec persistance
+- 🛒 Fonctionnalités de base du panier d'achat
+- 📦 Gestion des produits et images
 
 ## Démarrage rapide
 
