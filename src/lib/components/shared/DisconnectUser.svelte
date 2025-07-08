@@ -4,8 +4,8 @@
 
 	const dispatch = createEventDispatcher();
 
-	let isLoading = false;
-	let errorMessage: string | null = null;
+	let isLoading = $state(false);
+	let errorMessage = $state<string | null>(null);
 
 	async function handleLogout() {
 		isLoading = true;
@@ -20,11 +20,8 @@
 			});
 
 			if (response.ok) {
-				// Clear user from store
 				userStore.logout();
-				// Emit event to close modal and refresh
 				dispatch('logoutSuccess');
-				// Refresh the page to clear any cached data
 				window.location.reload();
 			} else {
 				const errorData = await response.json();
@@ -49,7 +46,7 @@
 		{/if}
 
 		<button
-			on:click={handleLogout}
+			onclick={handleLogout}
 			class="w-full rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 disabled:opacity-50 transition-colors"
 			disabled={isLoading}
 		>

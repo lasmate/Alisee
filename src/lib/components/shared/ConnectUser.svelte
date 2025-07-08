@@ -4,14 +4,14 @@
 
 	const dispatch = createEventDispatcher();
 
-	let email: string = '';
-	let password: string = '';
-	let errorMessage: string | null = null;
-	let isLoading: boolean = false;
+	let email = $state('');
+	let password = $state('');
+	let errorMessage = $state<string | null>(null);
+	let isLoading = $state(false);
 
 	async function handleLogin() {
 		isLoading = true;
-		errorMessage = '';
+		errorMessage = null;
 
 		try {
 			const response = await fetch('/api/account/connect', {
@@ -46,7 +46,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-center p-4">
-	<form on:submit|preventDefault={handleLogin} class="w-full max-w-md">
+	<form onsubmit={handleLogin} class="w-full max-w-md">
 		<p class="mb-4 text-lg font-semibold text-white">Se connecter</p>
 
 		{#if errorMessage}
@@ -76,7 +76,7 @@
 			class="w-full rounded bg-amber-500 px-4 py-2 text-neutral-900 hover:bg-amber-600 disabled:opacity-50"
 			disabled={isLoading}
 		>
-			{isLoading ? 'Connexion...' : 'Connexion'}
+			{isLoading ? 'Connexion...' : 'Se connecter'}
 		</button>
 	</form>
 </div>

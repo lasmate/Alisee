@@ -4,12 +4,12 @@
 
 	const dispatch = createEventDispatcher();
 
-	let email: string = '';
-	let password: string = '';
-	let name: string = '';
-	let surname: string = '';
-	let errorMessage: string | null = null;
-	let isLoading: boolean = false;
+	let email = $state('');
+	let password = $state('');
+	let name = $state('');
+	let surname = $state('');
+	let errorMessage = $state<string | null>(null);
+	let isLoading = $state(false);
 
 	async function handleRegister() {
 		isLoading = true;
@@ -52,7 +52,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-center p-4">
-	<form on:submit|preventDefault={handleRegister} class="w-full max-w-md">
+	<form onsubmit={handleRegister} class="w-full max-w-md">
 		<p class="mb-4 text-lg font-semibold text-white">Créer un compte</p>
 
 		{#if errorMessage}
