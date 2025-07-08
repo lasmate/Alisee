@@ -4,15 +4,30 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle_ORM-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black)
-![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3A37?style=for-the-badge&logo=npm&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Version](https://img.shields.io/badge/version-v0.0.7-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-v2.0.0-blue?style=for-the-badge)
 
 Ceci est un projet Svelte initialisé avec SvelteKit, utilisant Tailwind CSS pour le style et Drizzle ORM pour les interactions avec la base de données.
 
 ## Version Changelog
 
-### v0.0.7 (Décembre 2025)
+### v2.0.0 (juillet 2025) - Version Majeure de lancement
+
+- 🛒 **Système de commande complet** : Pipeline de commande intégral avec validation, stockage en base et suivi
+- 📝 **Documentation complète** : Commentaires JSDoc sur toutes les APIs et composants (facilitée avec copilot)
+- 🎨 **Interface utilisateur raffinée** : Composants cohérents et expérience utilisateur fluide
+- 🔐 **Authentification sécurisée** : Tokens de session, cookies HTTP-only et validation côté serveur
+- 🗃️ **Schémas de base améliorés** : Nouvelles tables pour les commandes et tokens de session
+- 👨‍💼 **Panel d'administration avancé** : Gestion des commandes avec contrôles de statut bidirectionnels
+  - 📦 **Suivi des commandes** : Statuts multiples (en attente → traitement → expédié → terminé)  
+- 🛒 **Panier** :
+  - 🛍️ **Compteur d'articles** : Badge de comptage d'articles en temps réel et gestion des quantités
+  - 🧾 **Résumé du panier** : Détails des articles dans le panier avec options de modification
+  - 📄 **Résumé de commande** : Récapitulatif détaillé avec informations client et articles commandés
+- ⚡ **Migration Svelte 5** : Passage complet aux runes pour de meilleures performances
+
+### v0.0.7 (juin 2025)
 
 - ✨ **Système d'authentification complet** : Implémentation de la connexion/déconnexion des utilisateurs
 - 🔐 **Gestion des sessions** : Persistance des sessions utilisateur avec sessionStorage
