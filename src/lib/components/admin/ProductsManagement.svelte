@@ -97,42 +97,42 @@
 					<thead class={currentTheme === 'dark' ? 'bg-neutral-700' : 'bg-gray-50'}>
 						<tr>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								ID
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Nom
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Prix
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Quantité
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Disponible
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
@@ -150,36 +150,36 @@
 						{#each products as product}
 							<tr>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{product.id}
 								</td>
 								<td
-									class="px-6 py-4 text-sm font-medium whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm font-medium whitespace-nowrap {currentTheme === 'dark'
 										? 'text-white'
 										: 'text-gray-900'}"
 								>
 									{product.name}
 								</td>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{product.price.toFixed(2)}€
 								</td>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{product.quantity}
 								</td>
-								<td class="px-6 py-4 whitespace-nowrap">
+								<td class="px-3 py-4 whitespace-nowrap">
 									<span
-										class="inline-flex rounded-full px-2 text-xs leading-5 font-semibold {product.isAvailable ===
+										class="inline-flex rounded-full px-3 text-xs leading-5 font-semibold {product.isAvailable ===
 										1
 											? 'bg-green-100 text-green-800'
 											: 'bg-red-100 text-red-800'}"
@@ -187,7 +187,7 @@
 										{product.isAvailable === 1 ? 'Oui' : 'Non'}
 									</span>
 								</td>
-								<td class="px-6 py-4 text-sm font-medium whitespace-nowrap">
+								<td class="px-3 py-4 text-sm font-medium whitespace-nowrap">
 									<button
 										on:click={() => toggleProductAvailability(product)}
 										class="rounded px-3 py-1 text-xs {product.isAvailable === 1

@@ -107,35 +107,35 @@
 					<thead class={currentTheme === 'dark' ? 'bg-neutral-700' : 'bg-gray-50'}>
 						<tr>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								ID
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Nom
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Email
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Type de compte
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
@@ -153,14 +153,14 @@
 						{#each users as user}
 							<tr>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{user.id}
 								</td>
 								<td
-									class="px-6 py-4 text-sm font-medium whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm font-medium whitespace-nowrap {currentTheme === 'dark'
 										? 'text-white'
 										: 'text-gray-900'}"
 								>
@@ -168,13 +168,13 @@
 									{user.surname}
 								</td>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{user.email}
 								</td>
-								<td class="px-6 py-4 whitespace-nowrap">
+								<td class="px-3 py-4 whitespace-nowrap">
 									<span
 										class="inline-flex rounded-full px-2 text-xs leading-5 font-semibold {user.accountType ===
 										1
@@ -184,7 +184,7 @@
 										{user.accountType === 1 ? 'Admin' : 'Client'}
 									</span>
 								</td>
-								<td class="space-x-2 px-6 py-4 text-sm font-medium whitespace-nowrap">
+								<td class="space-x-2 px-3 py-4 text-sm font-medium whitespace-nowrap">
 									<button
 										on:click={() => toggleUserAccountType(user)}
 										class="rounded bg-blue-500 px-3 py-1 text-xs text-white transition-colors hover:bg-blue-600"

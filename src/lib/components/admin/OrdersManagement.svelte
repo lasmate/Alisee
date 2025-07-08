@@ -86,42 +86,42 @@
 					<thead class={currentTheme === 'dark' ? 'bg-neutral-700' : 'bg-gray-50'}>
 						<tr>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								ID
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Client
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Produit
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Prix
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
 								Date
 							</th>
 							<th
-								class="px-6 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
 									? 'text-neutral-300'
 									: 'text-gray-500'} tracking-wider uppercase"
 							>
@@ -139,14 +139,14 @@
 						{#each orders as order}
 							<tr>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{order.orderId}
 								</td>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
@@ -159,27 +159,27 @@
 									</div>
 								</td>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{order.itemName || 'N/A'}
 								</td>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{order.price ? '$' + formatPrice(order.price) : 'N/A'}
 								</td>
 								<td
-									class="px-6 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
+									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
 									{formatDate(order.createdAt)}
 								</td>
-								<td class="px-6 py-4 whitespace-nowrap">
+								<td class="px-3 py-4 whitespace-nowrap">
 									<span
 										class="inline-flex rounded-full px-2 text-xs leading-5 font-semibold {order.isCompleted
 											? 'bg-green-100 text-green-800'
