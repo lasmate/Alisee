@@ -4,11 +4,16 @@
  */
 import type { RequestHandler } from './$types';
 import { json } from '@sveltejs/kit';
+import { db } from '$lib/server/db';
+import { users } from '$lib/server/db/schema/Users';
+import { eq } from 'drizzle-orm';
 
 export const POST: RequestHandler = async ({ cookies }) => {
-	// Clear any server-side session cookies if you implement them later
-	// For now, we're using client-side storage, so just return success
-
+	const sessionToken = cookies.get('session');
+	if (sessionToken) {
+		await db.update(users).set({ sessionToken: null }).where(eq(users.sessionToken, sessionToken));
+		cookies.delete('session', { path: '/' });
+	}
 	return json({ success: true, message: 'Logged out successfully' });
 };
 

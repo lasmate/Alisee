@@ -8,5 +8,6 @@ export const users = sqliteTable('users', {
 	password: text('password').notNull(),
 	createdAt: text('created_at'),
 	accountType: integer('account_type').notNull().default(0), // 0 for customer, 1 for admin
-	orderIDs: text('order_ids').notNull().default('[]')
+	orderIDs: text('order_ids').notNull().default('[]'),
+	sessionToken: text('session_token').unique(),
 });
