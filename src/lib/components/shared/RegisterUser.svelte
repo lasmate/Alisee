@@ -1,3 +1,13 @@
+<!--
+    RegisterUser.svelte
+
+    User registration form component. Handles new user account creation with
+    form validation and automatic login upon successful registration.
+
+    Props: None.
+    Events: registerSuccess (dispatched on successful registration).
+    Functions: Form validation, API communication, user store management.
+-->
 <script lang="ts">
 	import { userStore } from '$lib/stores/userStore';
 	import { createEventDispatcher } from 'svelte';

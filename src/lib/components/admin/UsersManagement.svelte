@@ -2,11 +2,11 @@
     UsersManagement.svelte
 
     Admin component to manage users. Displays a table with user details
-    (ID, name, email, createdAt, accountType) and allows toggling account type.
+    (ID, name, email, account type) and allows user deletion and role management.
 
     Props: currentTheme (string).
     Events: close (dispatched on modal close).
-    Functions: toggleUserAccountType, formatDate.
+    Functions: User deletion, account type toggling, data fetching.
 -->
 <script lang="ts">
 	import { fly } from 'svelte/transition';

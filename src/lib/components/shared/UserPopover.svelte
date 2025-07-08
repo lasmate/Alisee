@@ -1,3 +1,13 @@
+<!--
+    UserPopover.svelte
+
+    User authentication popover component. Shows login/register options for guests
+    and disconnect option for authenticated users.
+
+    Props: None.
+    Events: close (dispatched on modal close).
+    Functions: User authentication state management, modal navigation.
+-->
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { theme } from '$lib/stores/themeStore';

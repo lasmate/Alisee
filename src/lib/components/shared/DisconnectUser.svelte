@@ -1,3 +1,13 @@
+<!--
+    DisconnectUser.svelte
+
+    User logout component. Displays welcome message and provides logout functionality
+    with session cleanup and page refresh.
+
+    Props: None.
+    Events: logoutSuccess (dispatched on successful logout).
+    Functions: Session termination, user store cleanup, page navigation.
+-->
 <script lang="ts">
 	import { userStore } from '$lib/stores/userStore';
 	import { createEventDispatcher } from 'svelte';

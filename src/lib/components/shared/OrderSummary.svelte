@@ -1,3 +1,13 @@
+<!--
+    OrderSummary.svelte
+
+    Order confirmation summary component. Shows order details, customer information,
+    and cart items after successful order placement.
+
+    Props: firstName, lastName, address, city, postalCode, country, orderId (strings).
+    Events: close (dispatched on modal close).
+    Functions: Order confirmation, cart clearing, navigation to homepage.
+-->
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { fly } from 'svelte/transition';

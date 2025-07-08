@@ -1,12 +1,12 @@
 <!--
     ProductsManagement.svelte
 
-    Admin component to manage products. Displays a table with product details 
-    (ID, name, price, quantity, availability) and allows toggling availability.
+    Admin component to manage products. Displays a table with product details
+    (ID, name, price, quantity, availability) and allows toggling product availability.
 
     Props: currentTheme (string).
     Events: close (dispatched on modal close).
-    Functions: toggleProductAvailability, formatPrice.
+    Functions: Product availability toggling, price formatting, data fetching.
 -->
 <script lang="ts">
 	import { fly } from 'svelte/transition';

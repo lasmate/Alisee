@@ -1,3 +1,13 @@
+<!--
+    ConnectUser.svelte
+
+    User login form component. Handles user authentication with email/password
+    validation and session management.
+
+    Props: None.
+    Events: loginSuccess (dispatched on successful login).
+    Functions: Form validation, authentication API calls, session handling.
+-->
 <script lang="ts">
 	import { userStore } from '$lib/stores/userStore';
 	import { createEventDispatcher } from 'svelte';

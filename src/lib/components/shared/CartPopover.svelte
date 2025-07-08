@@ -1,3 +1,13 @@
+<!--
+    CartPopover.svelte
+
+    Shopping cart popover component. Displays cart items, allows quantity management,
+    and provides checkout functionality with user authentication check.
+
+    Props: None.
+    Events: close (dispatched on modal close), openUserPopover (dispatched when user needs to login).
+    Functions: Cart item management, quantity updates, checkout navigation.
+-->
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { theme } from '$lib/stores/themeStore';

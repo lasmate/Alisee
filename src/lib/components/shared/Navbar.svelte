@@ -1,3 +1,13 @@
+<!--
+    Navbar.svelte
+
+    Main navigation bar component with theme toggle, cart, and user authentication.
+    Displays cart item count badge and user name when logged in.
+
+    Props: None.
+    Events: None (handles internal state).
+    Functions: toggleTheme, cart/user popover management.
+-->
 <!-- Module de barre de navigation -->
 <script lang="ts">
 	import { theme, toggleTheme } from '$lib/stores/themeStore';

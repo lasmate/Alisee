@@ -1,3 +1,13 @@
+<!--
+    ProductPopover.svelte
+
+    Product customization popover component. Allows users to select customization
+    images and add items to cart with personalization options.
+
+    Props: item (Item interface with id, name, description, size, price).
+    Events: close (dispatched on modal close), addToCart (dispatched on cart addition).
+    Functions: Image selection, cart management, customization handling.
+-->
 <script module lang="ts">
 	export interface Item {
 		id: number;
