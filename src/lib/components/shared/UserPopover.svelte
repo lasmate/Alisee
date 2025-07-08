@@ -9,11 +9,11 @@
 	import { createEventDispatcher } from 'svelte';
 	import { userStore } from '$lib/stores/userStore';
 
-	let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
+	let currentTheme = $state(browser ? localStorage.getItem('theme') || 'dark' : 'dark');
 	const unsubscribe = theme.subscribe((themeValue) => (currentTheme = themeValue));
 
-	let showRegister = false;
-	let showConnect = false;
+	let showRegister = $state(false);
+	let showConnect = $state(false);
 
 	const dispatch = createEventDispatcher();
 
@@ -27,12 +27,12 @@
 		class="absolute inset-0 bg-black/50"
 		role="button"
 		tabindex="0"
-		on:click={() => {
+		onclick={() => {
 			showRegister = false;
 			showConnect = false;
 			dispatch('close');
 		}}
-		on:keydown={(e) => {
+		onkeydown={(e) => {
 			if (e.key === 'Escape') {
 				showRegister = false;
 				showConnect = false;
@@ -56,7 +56,7 @@
 			<div class="flex flex-col items-center justify-center gap-4">
 				<button
 					class="w-full rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-neutral-900 transition-colors hover:bg-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
-					on:click={() => {
+					onclick={() => {
 						showRegister = true;
 					}}
 				>
@@ -66,7 +66,7 @@
 					class="w-full rounded-lg {currentTheme === 'dark'
 						? 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700'
 						: 'bg-neutral-200 text-neutral-800 hover:bg-neutral-300'} px-4 py-2 text-sm font-semibold transition-colors focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
-					on:click={() => {
+					onclick={() => {
 						showConnect = true;
 					}}
 				>
@@ -79,8 +79,8 @@
 						class="absolute inset-0 bg-black/50"
 						role="button"
 						tabindex="0"
-						on:click={() => (showRegister = false)}
-						on:keydown={(e) => {
+						onclick={() => (showRegister = false)}
+						onkeydown={(e) => {
 							if (e.key === 'Enter' || e.key === ' ') {
 								showRegister = false;
 							}
@@ -108,8 +108,8 @@
 						class="absolute inset-0 bg-black/50"
 						role="button"
 						tabindex="0"
-						on:click={() => (showConnect = false)}
-						on:keydown={(e) => {
+						onclick={() => (showConnect = false)}
+						onkeydown={(e) => {
 							if (e.key === 'Enter' || e.key === ' ') {
 								showConnect = false;
 							}

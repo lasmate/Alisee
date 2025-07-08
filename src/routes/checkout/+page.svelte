@@ -7,56 +7,49 @@
 	import { goto } from '$app/navigation';
 	import OrderSummary from '$lib/components/shared/OrderSummary.svelte';
 
-	let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
-	const unsubscribe = theme.subscribe((themeValue) => (currentTheme = themeValue));
-
-	let showOrderSummary = false;
-	let mounted = false;
+	let currentTheme = $state(browser ? localStorage.getItem('theme') || 'dark' : 'dark');
+	let showOrderSummary = $state(false);
+	let mounted = $state(false);
 
 	// Form data
-	let firstName = '';
-	let lastName = '';
-	let address = '';
-	let city = '';
-	let postalCode = '';
-	let country = '';
-	let cardNumber = '';
-	let expiryDate = '';
-	let cvv = '';
-	let cardholderName = '';
+	let firstName = $state('');
+	let lastName = $state('');
+	let address = $state('');
+	let city = $state('');
+	let postalCode = $state('');
+	let country = $state('');
+	let cardNumber = $state('');
+	let expiryDate = $state('');
+	let cvv = $state('');
+	let cardholderName = $state('');
 
-	$: isFormValid = firstName.trim() !== '' &&
-		lastName.trim() !== '' &&
-		address.trim() !== '' &&
-		city.trim() !== '' &&
-		postalCode.trim() !== '' &&
-		country.trim() !== '' &&
-		cardNumber.trim() !== '' &&
-		expiryDate.trim() !== '' &&
-		cvv.trim() !== '' &&
-		cardholderName.trim() !== '';
+	let isProcessingOrder = $state(false);
+	let orderError = $state('');
+	let orderId = $state('');
 
-	$: totalPrice = cartStore.getTotalPrice($cartStore);
+	// Derived values
+	let isFormValid = $derived(
+		[firstName, lastName, address, city, postalCode, country, cardNumber, expiryDate, cvv, cardholderName]
+			.every(field => field.trim() !== '')
+	);
+	let totalPrice = $derived(cartStore.getTotalPrice($cartStore));
 
-	// Only check redirects after component is mounted and stores are loaded
-	$: if (mounted) {
-		if (!$userStore) {
-			goto('/');
-		} else if ($cartStore.length === 0) {
-			goto('/');
+	// Theme subscription
+	const unsubscribe = theme.subscribe((themeValue) => (currentTheme = themeValue));
+
+	// Redirects after mount
+	$effect(() => {
+		if (mounted) {
+			if (!$userStore || $cartStore.length === 0) {
+				goto('/');
+			}
 		}
-	}
-
-	onMount(() => {
-		// Small delay to ensure stores are loaded
-		setTimeout(() => {
-			mounted = true;
-		}, 100);
 	});
 
-	let isProcessingOrder = false;
-	let orderError = '';
-	let orderId = '';
+	onMount(() => {
+		setTimeout(() => mounted = true, 100);
+		return unsubscribe;
+	});
 
 	async function handleCheckout() {
 		if (!isFormValid) return;
@@ -65,49 +58,37 @@
 		orderError = '';
 
 		try {
-			const orderData = {
-				firstName,
-				lastName,
-				address,
-				city,
-				postalCode,
-				country,
-				totalPrice,
-				items: $cartStore
-			};
-
 			const response = await fetch('/api/orders', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(orderData)
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					firstName, lastName, address, city, postalCode, country,
+					totalPrice, items: $cartStore
+				})
 			});
 
 			const result = await response.json();
 
 			if (response.ok) {
-				// Store the order ID for the summary
 				orderId = result.orderId.toString();
-				// Order created successfully, show summary
 				showOrderSummary = true;
 			} else {
 				orderError = result.error || 'Erreur lors de la création de la commande';
 			}
-		} catch (error) {
+		} catch {
 			orderError = 'Erreur de connexion. Veuillez réessayer.';
 		} finally {
 			isProcessingOrder = false;
 		}
 	}
 
-	function formatCardNumber(value: string) {
-		return value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
-	}
+	const formatCardNumber = (value: string) => value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
+	const formatExpiryDate = (value: string) => value.replace(/\D/g, '').replace(/(\d{2})(\d{2})/, '$1/$2');
 
-	function formatExpiryDate(value: string) {
-		return value.replace(/\D/g, '').replace(/(\d{2})(\d{2})/, '$1/$2');
-	}
+	// svelte-ignore state_referenced_locally
+		const inputClass = `w-full px-3 py-2 border rounded-lg ${currentTheme === 'dark' 
+		? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
+		: 'bg-white border-neutral-300 text-neutral-900'}`;
 </script>
 
 <svelte:head>
@@ -129,57 +110,15 @@
 						Adresse de livraison
 					</h2>
 					<div class="grid grid-cols-2 gap-4">
-						<input
-							type="text"
-							placeholder="Prénom"
-							bind:value={firstName}
-							class="w-full px-3 py-2 border rounded-lg {currentTheme === 'dark' 
-								? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-								: 'bg-white border-neutral-300 text-neutral-900'}"
-						/>
-						<input
-							type="text"
-							placeholder="Nom"
-							bind:value={lastName}
-							class="w-full px-3 py-2 border rounded-lg {currentTheme === 'dark' 
-								? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-								: 'bg-white border-neutral-300 text-neutral-900'}"
-						/>
+						<input type="text" placeholder="Prénom" bind:value={firstName} class={inputClass} />
+						<input type="text" placeholder="Nom" bind:value={lastName} class={inputClass} />
 					</div>
-					<input
-						type="text"
-						placeholder="Adresse"
-						bind:value={address}
-						class="w-full px-3 py-2 border rounded-lg mt-4 {currentTheme === 'dark' 
-							? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-							: 'bg-white border-neutral-300 text-neutral-900'}"
-					/>
+					<input type="text" placeholder="Adresse" bind:value={address} class="{inputClass} mt-4" />
 					<div class="grid grid-cols-2 gap-4 mt-4">
-						<input
-							type="text"
-							placeholder="Ville"
-							bind:value={city}
-							class="w-full px-3 py-2 border rounded-lg {currentTheme === 'dark' 
-								? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-								: 'bg-white border-neutral-300 text-neutral-900'}"
-						/>
-						<input
-							type="text"
-							placeholder="Code postal"
-							bind:value={postalCode}
-							class="w-full px-3 py-2 border rounded-lg {currentTheme === 'dark' 
-								? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-								: 'bg-white border-neutral-300 text-neutral-900'}"
-						/>
+						<input type="text" placeholder="Ville" bind:value={city} class={inputClass} />
+						<input type="text" placeholder="Code postal" bind:value={postalCode} class={inputClass} />
 					</div>
-					<input
-						type="text"
-						placeholder="Pays"
-						bind:value={country}
-						class="w-full px-3 py-2 border rounded-lg mt-4 {currentTheme === 'dark' 
-							? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-							: 'bg-white border-neutral-300 text-neutral-900'}"
-					/>
+					<input type="text" placeholder="Pays" bind:value={country} class="{inputClass} mt-4" />
 				</div>
 
 				<!-- Payment Information -->
@@ -187,50 +126,31 @@
 					<h2 class="text-xl font-semibold mb-4 {currentTheme === 'dark' ? 'text-white' : 'text-neutral-900'}">
 						Informations de paiement
 					</h2>
-					<input
-						type="text"
-						placeholder="Nom sur la carte"
-						bind:value={cardholderName}
-						class="w-full px-3 py-2 border rounded-lg {currentTheme === 'dark' 
-							? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-							: 'bg-white border-neutral-300 text-neutral-900'}"
-					/>
-					<input
-						type="text"
-						placeholder="Numéro de carte"
+					<input type="text" placeholder="Nom sur la carte" bind:value={cardholderName} class={inputClass} />
+					<input 
+						type="text" 
+						placeholder="Numéro de carte" 
 						bind:value={cardNumber}
-						on:input={(e) => {
+						oninput={(e) => {
 							const target = e.target as HTMLInputElement | null;
 							if (target) cardNumber = formatCardNumber(target.value);
 						}}
 						maxlength="19"
-						class="w-full px-3 py-2 border rounded-lg mt-4 {currentTheme === 'dark' 
-							? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-							: 'bg-white border-neutral-300 text-neutral-900'}"
+						class="{inputClass} mt-4" 
 					/>
 					<div class="grid grid-cols-2 gap-4 mt-4">
-						<input
-							type="text"
-							placeholder="MM/AA"
+						<input 
+							type="text" 
+							placeholder="MM/AA" 
 							bind:value={expiryDate}
-							on:input={(e) => {
+							oninput={(e) => {
 								const target = e.target as HTMLInputElement | null;
 								if (target) expiryDate = formatExpiryDate(target.value);
 							}}
 							maxlength="5"
-							class="w-full px-3 py-2 border rounded-lg {currentTheme === 'dark' 
-								? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-								: 'bg-white border-neutral-300 text-neutral-900'}"
+							class={inputClass} 
 						/>
-						<input
-							type="text"
-							placeholder="CVV"
-							bind:value={cvv}
-							maxlength="4"
-							class="w-full px-3 py-2 border rounded-lg {currentTheme === 'dark' 
-								? 'bg-neutral-700 border-neutral-600 text-white placeholder-neutral-400' 
-								: 'bg-white border-neutral-300 text-neutral-900'}"
-						/>
+						<input type="text" placeholder="CVV" bind:value={cvv} maxlength="4" class={inputClass} />
 					</div>
 				</div>
 			</div>
@@ -273,16 +193,14 @@
 		<!-- Checkout Button -->
 		<div class="mt-8 text-center">
 			{#if orderError}
-				<div class="mb-4 p-3 rounded-lg bg-red-500 text-white">
-					{orderError}
-				</div>
+				<div class="mb-4 p-3 rounded-lg bg-red-500 text-white">{orderError}</div>
 			{/if}
 			<button
 				class="px-8 py-3 rounded-lg text-lg font-semibold transition-colors {isFormValid && !isProcessingOrder
 					? 'bg-amber-500 text-neutral-900 hover:bg-amber-600 cursor-pointer'
 					: 'bg-neutral-500 text-neutral-300 cursor-not-allowed'}"
 				disabled={!isFormValid || isProcessingOrder}
-				on:click={handleCheckout}
+				onclick={handleCheckout}
 			>
 				{isProcessingOrder ? 'Traitement...' : 'Confirmer la commande'}
 			</button>
@@ -292,13 +210,7 @@
 
 {#if showOrderSummary}
 	<OrderSummary 
-		{firstName}
-		{lastName}
-		{address}
-		{city}
-		{postalCode}
-		{country}
-		orderId={orderId}
+		{firstName} {lastName} {address} {city} {postalCode} {country} {orderId}
 		on:close={() => showOrderSummary = false}
 	/>
 {/if}

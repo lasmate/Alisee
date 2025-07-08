@@ -7,27 +7,35 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 
-	export let firstName: string;
-	export let lastName: string;
-	export let address: string;
-	export let city: string;
-	export let postalCode: string;
-	export let country: string;
-	export let orderId: string = '';
+	const { firstName, lastName, address, city, postalCode, country, orderId } = $props<{
+		firstName: string;
+		lastName: string;
+		address: string;
+		city: string;
+		postalCode: string;
+		country: string;
+		orderId: string;
+	}>();
 
-	let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
+	let currentTheme = $state(browser ? localStorage.getItem('theme') || 'dark' : 'dark');
 	const unsubscribe = theme.subscribe((themeValue) => (currentTheme = themeValue));
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{
+		close: void;
+	}>();
 
-	$: totalPrice = cartStore.getTotalPrice($cartStore);
+	let totalPrice = $derived(cartStore.getTotalPrice($cartStore));
 
 	function confirmOrder() {
 		// Clear the cart
 		cartStore.clearCart();
-		// Close the summary
-		dispatch('close');
-		// Redirect to home or success page
+		// Redirect to home page
+		goto('/');
+	}
+
+	function handleOutsideClick() {
+		// Clear the cart and redirect to home when clicking outside
+		cartStore.clearCart();
 		goto('/');
 	}
 </script>
@@ -37,8 +45,8 @@
 		class="absolute inset-0 bg-black/50"
 		role="button"
 		tabindex="0"
-		on:click={() => dispatch('close')}
-		on:keydown={(e) => e.key === 'Escape' && dispatch('close')}
+		onclick={handleOutsideClick}
+		onkeydown={(e) => e.key === 'Escape' && handleOutsideClick()}
 	></div>
 
 	<div
@@ -149,18 +157,10 @@
 		</div>
 
 		<!-- Action Buttons -->
-		<div class="flex gap-4">
+		<div class="flex justify-center">
 			<button
-				class="flex-1 px-4 py-2 rounded-lg {currentTheme === 'dark'
-					? 'bg-neutral-700 text-white hover:bg-neutral-600'
-					: 'bg-neutral-200 text-neutral-900 hover:bg-neutral-300'} transition-colors"
-				on:click={() => dispatch('close')}
-			>
-				Fermer
-			</button>
-			<button
-				class="flex-1 px-4 py-2 rounded-lg bg-amber-500 text-neutral-900 hover:bg-amber-600 transition-colors font-semibold"
-				on:click={confirmOrder}
+				class="px-8 py-3 rounded-lg bg-amber-500 text-neutral-900 hover:bg-amber-600 transition-colors font-semibold text-lg"
+				onclick={confirmOrder}
 			>
 				Terminer
 			</button>

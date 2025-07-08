@@ -3,11 +3,10 @@
  *Handles user login and returns user data if successful
  */
 import type { RequestHandler } from './$types';
-import { db } from '$lib/server/db';
-import { users } from '$lib/server/db/schema/Users';
+import { db } from '$lib/server/db/index.js';
+import { users } from '$lib/server/db/schema/Users.js';
 import { eq } from 'drizzle-orm';
-import { json, error } from '@sveltejs/kit';
-import bcrypt from 'bcrypt';
+import { json } from '@sveltejs/kit';
 import crypto from 'crypto';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
@@ -15,21 +14,19 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const { email, password } = await request.json();
 
 		if (!email || !password) {
-			return error(400, 'Email and password are required');
+			return json({ error: 'Email et mot de passe requis' }, { status: 400 });
 		}
 
 		// Find user by email
 		const user = await db.select().from(users).where(eq(users.email, email)).limit(1);
 
 		if (!user || user.length === 0) {
-			return error(404, 'User not found');
+			return json({ error: 'Utilisateur non trouvé' }, { status: 404 });
 		}
 
-		// Verify password
-		const isValidPassword = await bcrypt.compare(password, user[0].password);
-
-		if (!isValidPassword) {
-			return error(401, 'Invalid email or password');
+		// Verify password (since you removed hashing, direct comparison)
+		if (password !== user[0].password) {
+			return json({ error: 'Mot de passe incorrect' }, { status: 401 });
 		}
 
 		// Generate session token
@@ -60,8 +57,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 		return json({ success: true, user: userData });
 
-	} catch (err) {
-		console.error('Login error:', err);
-		return error(500, 'Internal Server Error');
+	} catch (error) {
+		console.error('Login error:', error);
+		return json({ error: 'Erreur de connexion' }, { status: 500 });
 	}
 };

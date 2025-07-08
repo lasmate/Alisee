@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	export interface Item {
 		id: number;
 		name: string;
@@ -16,17 +16,17 @@
 	import { browser } from '$app/environment';
 	import { cartStore } from '$lib/stores/cartStore';
 
-	let imgCount = 0;
-	let images: { id: number; name: string; img_path: string }[] = [];
-	let selectedImageId: number | null = null;
-	$: selectedImage = selectedImageId ? images.find((img) => img.id === selectedImageId) : null;
+	let imgCount = $state(0);
+	let images = $state<{ id: number; name: string; img_path: string }[]>([]);
+	let selectedImageId = $state<number | null>(null);
+	let selectedImage = $derived(selectedImageId ? images.find((img) => img.id === selectedImageId) : null);
 
 	const dispatch = createEventDispatcher<{
 		close: void;
 		addToCart: { item: Item; customization?: { id: number; name: string; img_path: string } };
 	}>();
 
-	let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
+	let currentTheme = $state(browser ? localStorage.getItem('theme') || 'dark' : 'dark');
 	const unsubscribe = theme.subscribe((themeValue) => (currentTheme = themeValue));
 
 	onMount(() => {
@@ -60,7 +60,7 @@
 		unsubscribe();
 	});
 
-	export let item: Item;
+	const { item } = $props<{ item: Item }>();
 
 	function addToCart() {
 		cartStore.addItem({
@@ -80,8 +80,8 @@
 		class="absolute inset-0 bg-black/50"
 		role="button"
 		tabindex="0"
-		on:click={() => dispatch('close')}
-		on:keydown={(e) => e.key === 'Escape' && dispatch('close')}
+		onclick={() => dispatch('close')}
+		onkeydown={(e) => e.key === 'Escape' && dispatch('close')}
 	></div>
 	<div
 		in:fly={{ y: 200, duration: 300 }}
@@ -126,7 +126,7 @@
 								class:border-transparent={selectedImageId !== image.id}
 								class:ring-2={selectedImageId === image.id}
 								class:ring-amber-400={selectedImageId === image.id}
-								on:click={() => (selectedImageId = image.id)}
+								onclick={() => (selectedImageId = image.id)}
 								title={image.name}
 							>
 								<img
@@ -171,7 +171,7 @@
 				class="w-full rounded-lg {currentTheme === 'dark'
 					? 'bg-amber-500 text-neutral-900 hover:bg-amber-600'
 					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold transition-colors focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
-				on:click={addToCart}
+				onclick={addToCart}
 			>
 				Ajouter au panier
 			</button>

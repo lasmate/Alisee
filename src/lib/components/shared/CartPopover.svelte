@@ -7,13 +7,13 @@
 	import { browser } from '$app/environment';
 	import { createEventDispatcher } from 'svelte';
 
-	let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
+	let currentTheme = $state(browser ? localStorage.getItem('theme') || 'dark' : 'dark');
 	const unsubscribe = theme.subscribe((themeValue) => (currentTheme = themeValue));
 
 	const dispatch = createEventDispatcher();
 
-	$: totalPrice = cartStore.getTotalPrice($cartStore);
-	$: totalItems = cartStore.getTotalItems($cartStore);
+	let totalPrice = $derived(cartStore.getTotalPrice($cartStore));
+	let totalItems = $derived(cartStore.getTotalItems($cartStore));
 
 	onDestroy(() => {
 		unsubscribe();
@@ -44,8 +44,8 @@
 		class="absolute inset-0 bg-black/50"
 		role="button"
 		tabindex="0"
-		on:click={() => dispatch('close')}
-		on:keydown={(e) => {
+		onclick={() => dispatch('close')}
+		onkeydown={(e) => {
 			if (e.key === 'Escape') {
 				dispatch('close');
 			}
@@ -99,7 +99,7 @@
 						<div class="flex items-center gap-2">
 							<button
 								class="w-8 h-8 rounded-full {currentTheme === 'dark' ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-neutral-200 text-neutral-900 hover:bg-neutral-300'} flex items-center justify-center transition-colors"
-								on:click={() => handleQuantityChange(item, item.quantity - 1)}
+								onclick={() => handleQuantityChange(item, item.quantity - 1)}
 							>
 								-
 							</button>
@@ -108,13 +108,13 @@
 							</span>
 							<button
 								class="w-8 h-8 rounded-full {currentTheme === 'dark' ? 'bg-neutral-800 text-white hover:bg-neutral-700' : 'bg-neutral-200 text-neutral-900 hover:bg-neutral-300'} flex items-center justify-center transition-colors"
-								on:click={() => handleQuantityChange(item, item.quantity + 1)}
+								onclick={() => handleQuantityChange(item, item.quantity + 1)}
 							>
 								+
 							</button>
 							<button
 								class="ml-2 w-8 h-8 rounded-full bg-red-500 text-white hover:bg-red-600 flex items-center justify-center transition-colors"
-								on:click={() => removeItem(item)}
+								onclick={() => removeItem(item)}
 								title="Supprimer"
 							>
 								×
@@ -135,7 +135,7 @@
 				</div>
 				<button
 					class="w-full rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-neutral-900 transition-colors hover:bg-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
-					on:click={proceedToCheckout}
+					onclick={proceedToCheckout}
 				>
 					{$userStore ? 'Procéder à la commande' : 'Se connecter pour commander'}
 				</button>

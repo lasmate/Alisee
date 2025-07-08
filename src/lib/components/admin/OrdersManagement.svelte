@@ -13,9 +13,9 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	export let currentTheme: string;
-	let orders: Order[] = [];
-	let loading: boolean = false;
+	const { currentTheme } = $props<{ currentTheme: string }>();
+	let orders = $state<Order[]>([]);
+	let loading = $state(false);
 
 	type Order = {
 		orderId: number;
@@ -32,10 +32,7 @@
 		createdAt: string;
 		processedAt?: string;
 		shippedAt?: string;
-
 		isCompleted?: boolean;
-	
-		
 	};
 
 	onMount(async () => {
@@ -73,6 +70,32 @@
 		}
 	}
 
+	function getPreviousStatus(currentStatus: string): string | null {
+		switch (currentStatus) {
+			case 'processing':
+				return 'pending';
+			case 'shipped':
+				return 'processing';
+			case 'completed':
+				return 'shipped';
+			default:
+				return null;
+		}
+	}
+
+	function getNextStatus(currentStatus: string): string | null {
+		switch (currentStatus) {
+			case 'pending':
+				return 'processing';
+			case 'processing':
+				return 'shipped';
+			case 'shipped':
+				return 'completed';
+			default:
+				return null;
+		}
+	}
+
 	function formatDate(dateString: string) {
 		return new Date(dateString).toLocaleDateString('fr-FR');
 	}
@@ -87,8 +110,8 @@
 		class="absolute inset-0 bg-black/50"
 		role="button"
 		tabindex="0"
-		on:click={() => dispatch('close')}
-		on:keydown={(e) => e.key === 'Escape' && dispatch('close')}
+		onclick={() => dispatch('close')}
+		onkeydown={(e) => e.key === 'Escape' && dispatch('close')}
 	></div>
 	<div
 		in:fly={{ y: 200, duration: 300 }}
@@ -229,26 +252,35 @@
 								</td>
 								<td class="px-3 py-4 text-sm font-medium whitespace-nowrap">
 									<div class="flex gap-1">
-										{#if order.status === 'pending'}
+										<!-- Back button -->
+										{#if getPreviousStatus(order.status)}
 											<button
-												on:click={() => updateOrderStatus(order.orderId, 'processing')}
-												class="rounded bg-blue-500 px-2 py-1 text-xs text-white transition-colors hover:bg-blue-600"
+												onclick={() => {
+													const prevStatus = getPreviousStatus(order.status);
+													if (prevStatus) updateOrderStatus(order.orderId, prevStatus);
+												}}
+												class="rounded bg-gray-500 px-2 py-1 text-xs text-white transition-colors hover:bg-gray-600"
+												title="Revenir en arrière"
 											>
-												Traiter
+												← Retour
 											</button>
-										{:else if order.status === 'processing'}
+										{/if}
+										
+										<!-- Forward button -->
+										{#if getNextStatus(order.status)}
 											<button
-												on:click={() => updateOrderStatus(order.orderId, 'shipped')}
-												class="rounded bg-purple-500 px-2 py-1 text-xs text-white transition-colors hover:bg-purple-600"
+												onclick={() => {
+													const nextStatus = getNextStatus(order.status);
+													if (nextStatus) updateOrderStatus(order.orderId, nextStatus);
+												}}
+												class="rounded {order.status === 'pending'
+													? 'bg-blue-500 hover:bg-blue-600'
+													: order.status === 'processing'
+													? 'bg-purple-500 hover:bg-purple-600'
+													: 'bg-green-500 hover:bg-green-600'} px-2 py-1 text-xs text-white transition-colors"
 											>
-												Expédier
-											</button>
-										{:else if order.status === 'shipped'}
-											<button
-												on:click={() => updateOrderStatus(order.orderId, 'completed')}
-												class="rounded bg-green-500 px-2 py-1 text-xs text-white transition-colors hover:bg-green-600"
-											>
-												Terminer
+												{order.status === 'pending' ? 'Traiter' : 
+												 order.status === 'processing' ? 'Expédier' : 'Terminer'} →
 											</button>
 										{/if}
 									</div>
@@ -261,4 +293,3 @@
 		{/if}
 	</div>
 </div>
-
