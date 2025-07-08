@@ -3,42 +3,37 @@
 	import ProductPopover from '$lib/components/shared/ProductPopover.svelte';
 	import { Motion, useMotionTemplate, useMotionValue } from 'svelte-motion';
 	import { theme } from '$lib/stores/themeStore';
-	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	export let productId;
-	let showPopover = false;
 
-	let item = { id: 0, name: '', description: '', size: '', price: 0 };
-	// Initialize with actual stored theme
-	let currentTheme = browser ? localStorage.getItem('theme') || 'dark' : 'dark';
+	// Props using runes
+	let { productId } = $props();
+
+	// State using runes
+	let showPopover = $state(false);
+	let item = $state({ id: 0, name: '', description: '', size: '', price: 0 });
+
+	// Derived state for theme
+	let currentTheme = $derived(browser ? $theme : 'dark');
 
 	let mouseX = useMotionValue(0);
 	let mouseY = useMotionValue(0);
 	let background = useMotionTemplate`radial-gradient(200px circle at ${mouseX}px ${mouseY}px, rgba(60, 60, 60, 0.4), transparent 80%)`;
 
-	// Subscribe to theme changes
-	const unsubscribe = theme.subscribe((themeValue) => {
-		currentTheme = themeValue;
-	});
-
-	onMount(() => {
-		// Set initial theme
-		currentTheme = $theme;
-
-		// Fetch product data
-		fetch(`/Item?productId=${productId}`)
-			.then((res) => res.json())
-			.then((data) => {
-				item = data;
-			});
-
-		return unsubscribe;
+	// Effect for fetching product data
+	$effect(() => {
+		if (productId) {
+			fetch(`/Item?productId=${productId}`)
+				.then((res) => res.json())
+				.then((data) => {
+					item = data;
+				});
+		}
 	});
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	on:mousemove={(e) => {
+	onmousemove={(e) => {
 		const { left, top } = e.currentTarget.getBoundingClientRect();
 		mouseX.set(e.clientX - left);
 		mouseY.set(e.clientY - top);
@@ -103,7 +98,7 @@
 			{/if}
 
 			<button
-				on:click={() => (showPopover = true)}
+				onclick={() => (showPopover = true)}
 				class="w-full rounded-lg {currentTheme === 'dark'
 					? 'bg-amber-500 text-neutral-900 hover:bg-amber-600'
 					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
