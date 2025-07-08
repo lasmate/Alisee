@@ -1,3 +1,7 @@
+/**
+ * API endpoint for order creation.
+ * Handles order submission from the checkout process and stores order data in the database.
+ */
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db/index.js';
@@ -5,6 +9,11 @@ import { orders } from '$lib/server/db/schema/Orders.js';
 import { users } from '$lib/server/db/schema/Users.js';
 import { eq } from 'drizzle-orm';
 
+/**
+ * Handles POST requests to create a new order.
+ * Validates user session, processes order data, and stores in database.
+ * @return A JSON response with success status and order ID or error message.
+ */
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const orderData = await request.json();

@@ -1,6 +1,6 @@
-/*
- *API endpoint to connect to an account
- *Handles user login and returns user data if successful
+/**
+ * API endpoint for user authentication.
+ * Handles user login by verifying credentials and creating session tokens.
  */
 import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db/index.js';
@@ -9,6 +9,11 @@ import { eq } from 'drizzle-orm';
 import { json } from '@sveltejs/kit';
 import crypto from 'crypto';
 
+/**
+ * Handles POST requests for user login.
+ * Validates email/password, generates session token, and sets authentication cookie.
+ * @return A JSON response with user data and success status or error message.
+ */
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const { email, password } = await request.json();

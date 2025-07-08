@@ -1,6 +1,6 @@
-/*
- *API endpoint for user registration
- *Handles user registration and returns user data if successful
+/**
+ * API endpoint for user registration.
+ * Handles new user account creation with automatic login and session generation.
  */
 import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db';
@@ -9,6 +9,11 @@ import { eq } from 'drizzle-orm';
 import { json, error } from '@sveltejs/kit';
 import crypto from 'crypto';
 
+/**
+ * Handles POST requests for user registration.
+ * Validates input, checks for existing users, creates new account, and sets session.
+ * @return A JSON response with new user data and success status or error message.
+ */
 export const POST: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const { name, surname, email, password } = await request.json();

@@ -1,6 +1,6 @@
 /**
  * API endpoint for admin order management.
- * Handles fetching all orders with related user and item information.
+ * Handles fetching all orders with related user information and updating order status.
  */
 import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db';
@@ -10,7 +10,9 @@ import { eq } from 'drizzle-orm';
 import { json, error } from '@sveltejs/kit';
 
 /**
- * GET: Fetch all orders with related user and item data
+ * Handles GET requests to fetch all orders with user information.
+ * Returns orders with parsed items and formatted pricing for admin display.
+ * @return A JSON response with formatted order data or error message.
  */
 export const GET: RequestHandler = async ({ cookies }) => {
 	try {
@@ -55,7 +57,9 @@ export const GET: RequestHandler = async ({ cookies }) => {
 };
 
 /**
- * PATCH: Update order status
+ * Handles PATCH requests to update order status.
+ * Allows admin to change order status (pending, processing, shipped, completed).
+ * @return A JSON response with success status or error message.
  */
 export const PATCH: RequestHandler = async ({ request, cookies }) => {
 	try {
