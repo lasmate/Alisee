@@ -31,8 +31,9 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
+
 <div
+	role="region"
 	onmousemove={(e) => {
 		const { left, top } = e.currentTarget.getBoundingClientRect();
 		mouseX.set(e.clientX - left);
