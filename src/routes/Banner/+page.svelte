@@ -19,10 +19,14 @@
 		mouseX.set(e.clientX - left);
 		mouseY.set(e.clientY - top);
 	}}
-	class="group relative mx-auto w-[90vw] max-w-[1200px] overflow-hidden rounded-xl {currentTheme ===
+	class="group relative mx-auto m-1 w-[90vw] max-w-[1200px] overflow-hidden rounded-xl {currentTheme ===
 	'dark'
 		? 'bg-neutral-900'
-		: 'bg-white'} transition-colors duration-400 before:absolute before:top-0 before:right-0 before:left-0 before:h-8 before:rounded-t-xl before:bg-gradient-to-b before:from-amber-500 before:to-transparent after:absolute after:right-0 after:bottom-0 after:left-0 after:h-8 after:rounded-b-xl after:bg-gradient-to-t after:from-amber-500 after:to-transparent"
+		: 'bg-white'} transition-colors duration-400 
+        <!-- Banner gradient-->
+        
+        before:absolute before:top-0 before:right-0 before:left-0 before:h-8 before:rounded-t-xl before:bg-gradient-to-b before:from-amber-500 before:to-transparent 
+        after:absolute after:right-0 after:bottom-0 after:left-0 after:h-8 after:rounded-b-xl after:bg-gradient-to-t after:from-amber-500 after:to-transparent"
 >
 	<div
 		class="absolute top-0 right-5 h-px w-80 bg-gradient-to-l from-transparent {currentTheme ===

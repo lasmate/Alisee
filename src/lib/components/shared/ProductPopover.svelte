@@ -14,6 +14,7 @@
 	import { theme } from '$lib/stores/themeStore';
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import { cartStore } from '$lib/stores/cartStore';
 
 	let imgCount = 0;
 	let images: { id: number; name: string; img_path: string }[] = [];
@@ -60,6 +61,18 @@
 	});
 
 	export let item: Item;
+
+	function addToCart() {
+		cartStore.addItem({
+			id: item.id,
+			name: item.name,
+			description: item.description,
+			size: item.size,
+			price: item.price,
+			customization: selectedImage ?? undefined
+		});
+		dispatch('close');
+	}
 </script>
 
 <div class="fixed inset-0 z-15 flex items-center justify-center">
@@ -158,7 +171,7 @@
 				class="w-full rounded-lg {currentTheme === 'dark'
 					? 'bg-amber-500 text-neutral-900 hover:bg-amber-600'
 					: 'bg-amber-500 text-neutral-900 hover:bg-amber-600'} px-4 py-2 text-sm font-semibold transition-colors focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
-				on:click={() => dispatch('addToCart', { item, customization: selectedImage ?? undefined })}
+				on:click={addToCart}
 			>
 				Ajouter au panier
 			</button>

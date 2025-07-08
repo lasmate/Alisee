@@ -2,10 +2,13 @@
 <script lang="ts">
 	import { theme, toggleTheme } from '$lib/stores/themeStore';
 	import { userStore } from '$lib/stores/userStore';
+	import { cartStore } from '$lib/stores/cartStore';
 	import UserPopover from './UserPopover.svelte';
+	import CartPopover from './CartPopover.svelte';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	let showPopover = false;
+	let showCartPopover = false;
 
 	// start with a safe default
 	let currentTheme = 'dark';
@@ -47,6 +50,8 @@
 		currentTheme === 'dark'
 			? '/img/Icon/account_circle_40dp_FFFFFF_FILL0_wght400_GRAD0_opsz40.svg'
 			: '/img/Icon/account_circle_40dp_000000_FILL0_wght400_GRAD0_opsz40.svg';
+
+	$: totalItems = cartStore.getTotalItems($cartStore);
 </script>
 
 {#if mounted}<!-- Ensure the component is mounted before rendering  to prevent style mismatches between icons and backgrounds -->
@@ -71,8 +76,18 @@
 		>
 			<button
 				class="flex h-full w-full items-center justify-center"
-				on:click={() => (window.location.href = '/Cart')}
-				><img src={cartIconSrc} alt="Cart" class="inline-block h-8 w-8" />
+				on:click={() => (showCartPopover = true)}
+			>
+				<div class="relative">
+					<img src={cartIconSrc} alt="Cart" class="inline-block h-8 w-8" />
+					{#if totalItems > 0}
+						<span
+							class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold"
+						>
+							{totalItems > 99 ? '99+' : totalItems}
+						</span>
+					{/if}
+				</div>
 			</button>
 		</div>
 		<div
@@ -123,4 +138,7 @@
 <!-- End of Navbar component -->
 {#if showPopover}
 	<UserPopover on:close={() => (showPopover = false)} />
+{/if}
+{#if showCartPopover}
+	<CartPopover on:close={() => (showCartPopover = false)} />
 {/if}
