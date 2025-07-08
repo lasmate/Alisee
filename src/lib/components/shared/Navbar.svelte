@@ -52,60 +52,75 @@
 {#if mounted}<!-- Ensure the component is mounted before rendering  to prevent style mismatches between icons and backgrounds -->
 	<div class="sticky z-10 flex flex-row place-content-around rounded-b-3xl text-white">
 		<div
-			class="flex h-10 md:basis-1/8 basis-1/8 items-center justify-center rounded-bl-3xl border-1 text-center {currentTheme ===
+			class="flex h-10 basis-1/8 items-center justify-center rounded-bl-3xl border-1 text-center md:basis-1/8 {currentTheme ===
 			'dark'
-				? 'bg-neutral-900 border-white'
-				: 'bg-white border-neutral-900'} transition-colors duration-300"
+				? 'border-white bg-neutral-900'
+				: 'border-neutral-900 bg-white'} transition-colors duration-300"
 		>
-			<button class="w-full h-full flex items-center justify-center" on:click={() => (window.location.href = '/')}
+			<button
+				class="flex h-full w-full items-center justify-center"
+				on:click={() => (window.location.href = '/')}
 				><img src={highContrastSrc} alt="HighContrastToggle" class="inline-block h-8 w-8" />
 			</button>
 		</div>
 		<div
-			class="flex h-10 md:basis-1/4 basis-1/8 items-center justify-center border-1 text-center {currentTheme ===
+			class="flex h-10 basis-1/8 items-center justify-center border-1 text-center md:basis-1/4 {currentTheme ===
 			'dark'
-				? 'bg-neutral-900 border-white'
-				: 'bg-white border-neutral-900'} transition-colors duration-300"
+				? 'border-white bg-neutral-900'
+				: 'border-neutral-900 bg-white'} transition-colors duration-300"
 		>
-			<button class="w-full h-full flex items-center justify-center" on:click={() => (window.location.href = '/Cart')}
+			<button
+				class="flex h-full w-full items-center justify-center"
+				on:click={() => (window.location.href = '/Cart')}
 				><img src={cartIconSrc} alt="Cart" class="inline-block h-8 w-8" />
 			</button>
 		</div>
 		<div
-			class="h-20 md:basis-1/4 basis-4/8 rounded-b-3xl border-1 bg-[url('/img/silusins.png')] bg-contain bg-top bg-no-repeat bg-origin-border {currentTheme ===
+			class="h-20 basis-4/8 rounded-b-3xl border-1 bg-[url('/img/silusins.png')] bg-contain bg-top bg-no-repeat bg-origin-border md:basis-1/4 {currentTheme ===
 			'dark'
-				? 'bg-neutral-900 border-white'
-				: 'bg-white border-neutral-900'} transition-colors duration-300"
+				? 'border-white bg-neutral-900'
+				: 'border-neutral-900 bg-white'} transition-colors duration-300"
 		></div>
 		<div
-			class="flex h-10 md:basis-1/4 basis-1/8 items-center justify-center border-1 text-center {currentTheme ===
+			class="flex h-10 basis-1/8 items-center justify-center border-1 text-center md:basis-1/4 {currentTheme ===
 			'dark'
-				? 'bg-neutral-900 border-white'
-				: 'bg-white border-neutral-900'} transition-colors duration-300"
+				? 'border-white bg-neutral-900'
+				: 'border-neutral-900 bg-white'} transition-colors duration-300"
 		>
-			<button class="w-full h-full flex items-center justify-center gap-2 px-2" on:click={()=> showPopover = true}>
+			<button
+				class="flex h-full w-full items-center justify-center gap-2 px-2"
+				on:click={() => (showPopover = true)}
+			>
 				{#if $userStore}
 					<!-- Show user name when logged in -->
-					<span class="text-xs font-bold {currentTheme === 'dark' ? 'text-white' : 'text-neutral-900'} truncate max-w-20">
+					<span
+						class="text-xs font-bold {currentTheme === 'dark'
+							? 'text-white'
+							: 'text-neutral-900'} max-w-20 truncate"
+					>
 						{$userStore.name}
 					</span>
 				{/if}
-				<img src={accountIconSrc} alt="Account profile" class="inline-block h-8 w-8 flex-shrink-0" />
+				<img
+					src={accountIconSrc}
+					alt="Account profile"
+					class="inline-block h-8 w-8 flex-shrink-0"
+				/>
 			</button>
 		</div>
 		<div
-			class="flex h-10 md:basis-1/8 basis-1/8 items-center justify-center rounded-br-3xl border-1 text-center {currentTheme ===
+			class="flex h-10 basis-1/8 items-center justify-center rounded-br-3xl border-1 text-center md:basis-1/8 {currentTheme ===
 			'dark'
-				? 'bg-neutral-900 border-white'
-				: 'bg-white border-neutral-900'} transition-colors duration-300"
+				? 'border-white bg-neutral-900'
+				: 'border-neutral-900 bg-white'} transition-colors duration-300"
 		>
-			<button class="w-full h-full flex items-center justify-center" on:click={toggleTheme}>
+			<button class="flex h-full w-full items-center justify-center" on:click={toggleTheme}>
 				<img src={iconSrc} alt="Toggle theme" class="inline-block h-8 w-8" />
 			</button>
 		</div>
 	</div>
 {/if}
 <!-- End of Navbar component -->
- {#if showPopover}
+{#if showPopover}
 	<UserPopover on:close={() => (showPopover = false)} />
 {/if}

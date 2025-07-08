@@ -73,7 +73,10 @@
 	<div
 		in:fly={{ y: 200, duration: 300 }}
 		out:fly={{ y: 200, duration: 300 }}
-		class="relative {currentTheme === 'dark' ? 'bg-neutral-900' : 'bg-gray-100'} overflow-auto rounded-lg p-6">
+		class="relative {currentTheme === 'dark'
+			? 'bg-neutral-900'
+			: 'bg-gray-100'} overflow-auto rounded-lg p-6"
+	>
 		<div class="mt-2 grid grid-cols-2 gap-2">
 			<div class="m-2 basis-1/3">
 				<img
@@ -85,11 +88,17 @@
 			<div class="basis-2/3">
 				<div class="flex flex-row items-center justify-between pt-2">
 					<h3
-						class="text-xl font-semibold {currentTheme === 'dark' ? 'text-neutral-200' : 'text-neutral-800'}">
+						class="text-xl font-semibold {currentTheme === 'dark'
+							? 'text-neutral-200'
+							: 'text-neutral-800'}"
+					>
 						{item.name}
 					</h3>
 					<p
-						class="text-[13px] {currentTheme === 'dark' ? 'text-neutral-300' : 'text-neutral-700'} select-none">
+						class="text-[13px] {currentTheme === 'dark'
+							? 'text-neutral-300'
+							: 'text-neutral-700'} select-none"
+					>
 						${item.price.toFixed(2)}
 					</p>
 				</div>
@@ -118,7 +127,10 @@
 					</div>
 				{/if}
 				<p
-					class="text-sm leading-[1.5] {currentTheme === 'dark' ? 'text-neutral-400' : 'text-neutral-600'} pb-3">
+					class="text-sm leading-[1.5] {currentTheme === 'dark'
+						? 'text-neutral-400'
+						: 'text-neutral-600'} pb-3"
+				>
 					{item.description}
 				</p>
 				{#if item.size}
@@ -127,8 +139,14 @@
 					</p>
 				{/if}
 				{#if selectedImage}
-					<div class="mt-3 rounded-lg p-2 {currentTheme === 'dark' ? 'bg-neutral-800' : 'bg-gray-200'}">
-						<p class="text-sm font-medium {currentTheme === 'dark' ? 'text-neutral-200' : 'text-neutral-800'}">
+					<div
+						class="mt-3 rounded-lg p-2 {currentTheme === 'dark' ? 'bg-neutral-800' : 'bg-gray-200'}"
+					>
+						<p
+							class="text-sm font-medium {currentTheme === 'dark'
+								? 'text-neutral-200'
+								: 'text-neutral-800'}"
+						>
 							Personnalisation sélectionnée: {selectedImage.name}
 						</p>
 					</div>

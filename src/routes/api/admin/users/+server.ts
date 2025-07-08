@@ -13,16 +13,18 @@ import { json, error } from '@sveltejs/kit';
  */
 export const GET: RequestHandler = async () => {
 	try {
-		const allUsers = await db.select({
-			id: users.id,
-			name: users.name,
-			surname: users.surname,
-			email: users.email,
-			createdAt: users.createdAt,
-			accountType: users.accountType,
-			orderIDs: users.orderIDs
-		}).from(users);
-		
+		const allUsers = await db
+			.select({
+				id: users.id,
+				name: users.name,
+				surname: users.surname,
+				email: users.email,
+				createdAt: users.createdAt,
+				accountType: users.accountType,
+				orderIDs: users.orderIDs
+			})
+			.from(users);
+
 		return json(allUsers);
 	} catch (err) {
 		console.error('Error fetching users:', err);
@@ -36,7 +38,7 @@ export const GET: RequestHandler = async () => {
 export const DELETE: RequestHandler = async ({ request }) => {
 	try {
 		const { id } = await request.json();
-		
+
 		if (typeof id !== 'number') {
 			throw error(400, 'Invalid user ID');
 		}
@@ -55,15 +57,12 @@ export const DELETE: RequestHandler = async ({ request }) => {
 export const PATCH: RequestHandler = async ({ request }) => {
 	try {
 		const { id, accountType } = await request.json();
-		
+
 		if (typeof id !== 'number' || typeof accountType !== 'number') {
 			throw error(400, 'Invalid request data');
 		}
 
-		await db
-			.update(users)
-			.set({ accountType })
-			.where(eq(users.id, id));
+		await db.update(users).set({ accountType }).where(eq(users.id, id));
 
 		return json({ success: true });
 	} catch (err) {

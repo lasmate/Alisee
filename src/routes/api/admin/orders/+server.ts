@@ -34,7 +34,7 @@ export const GET: RequestHandler = async () => {
 			.from(orders)
 			.leftJoin(users, eq(orders.userId, users.id))
 			.leftJoin(item, eq(orders.itemId, item.id));
-		
+
 		return json(allOrders);
 	} catch (err) {
 		console.error('Error fetching orders:', err);
@@ -48,7 +48,7 @@ export const GET: RequestHandler = async () => {
 export const PATCH: RequestHandler = async ({ request }) => {
 	try {
 		const { id, isCompleted, processedAt, shippedAt } = await request.json();
-		
+
 		if (typeof id !== 'number') {
 			throw error(400, 'Invalid order ID');
 		}
@@ -58,10 +58,7 @@ export const PATCH: RequestHandler = async ({ request }) => {
 		if (processedAt !== undefined) updateData.processedAt = processedAt;
 		if (shippedAt !== undefined) updateData.shippedAt = shippedAt;
 
-		await db
-			.update(orders)
-			.set(updateData)
-			.where(eq(orders.id, id));
+		await db.update(orders).set(updateData).where(eq(orders.id, id));
 
 		return json({ success: true });
 	} catch (err) {
