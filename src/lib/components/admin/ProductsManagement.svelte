@@ -13,9 +13,9 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	export let currentTheme: string;
-	let products: Product[] = [];
-	let loading: boolean = false;
+	const { currentTheme } = $props<{ currentTheme: string }>();
+	let products = $state<Product[]>([]);
+	let loading = $state(false);
 
 	type Product = {
 		id: number;
@@ -73,8 +73,8 @@
 		class="absolute inset-0 bg-black/50"
 		role="button"
 		tabindex="0"
-		on:click={() => dispatch('close')}
-		on:keydown={(e) => e.key === 'Escape' && dispatch('close')}
+		onclick={() => dispatch('close')}
+		onkeydown={(e) => e.key === 'Escape' && dispatch('close')}
 	></div>
 	<div
 		in:fly={{ y: 200, duration: 300 }}
@@ -189,7 +189,7 @@
 								</td>
 								<td class="px-3 py-4 text-sm font-medium whitespace-nowrap">
 									<button
-										on:click={() => toggleProductAvailability(product)}
+										onclick={() => toggleProductAvailability(product)}
 										class="rounded px-3 py-1 text-xs {product.isAvailable === 1
 											? 'bg-red-500 text-white hover:bg-red-600'
 											: 'bg-green-500 text-white hover:bg-green-600'} transition-colors"

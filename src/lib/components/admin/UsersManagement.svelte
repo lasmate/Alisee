@@ -13,9 +13,9 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	export let currentTheme: string;
-	let users: User[] = [];
-	let loading: boolean = false;
+	const { currentTheme } = $props<{ currentTheme: string }>();
+	let users = $state<User[]>([]);
+	let loading = $state(false);
 
 	type User = {
 		id: number;
@@ -83,8 +83,8 @@
 		class="absolute inset-0 bg-black/50"
 		role="button"
 		tabindex="0"
-		on:click={() => dispatch('close')}
-		on:keydown={(e) => e.key === 'Escape' && dispatch('close')}
+		onclick={() => dispatch('close')}
+		onkeydown={(e) => e.key === 'Escape' && dispatch('close')}
 	></div>
 	<div
 		in:fly={{ y: 200, duration: 300 }}
@@ -186,13 +186,13 @@
 								</td>
 								<td class="space-x-2 px-3 py-4 text-sm font-medium whitespace-nowrap">
 									<button
-										on:click={() => toggleUserAccountType(user)}
+										onclick={() => toggleUserAccountType(user)}
 										class="rounded bg-blue-500 px-3 py-1 text-xs text-white transition-colors hover:bg-blue-600"
 									>
 										{user.accountType === 1 ? 'Dégrader' : 'Promouvoir'}
 									</button>
 									<button
-										on:click={() => deleteUser(user.id)}
+										onclick={() => deleteUser(user.id)}
 										class="rounded bg-red-500 px-3 py-1 text-xs text-white transition-colors hover:bg-red-600"
 									>
 										Supprimer
