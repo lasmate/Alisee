@@ -140,5 +140,11 @@
 	<UserPopover on:close={() => (showPopover = false)} />
 {/if}
 {#if showCartPopover}
-	<CartPopover on:close={() => (showCartPopover = false)} />
+	<CartPopover 
+		on:close={() => (showCartPopover = false)} 
+		on:openUserPopover={() => {
+			showCartPopover = false;
+			showPopover = true;
+		}}
+	/>
 {/if}

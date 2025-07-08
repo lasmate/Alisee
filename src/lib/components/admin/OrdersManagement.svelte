@@ -19,18 +19,23 @@
 
 	type Order = {
 		orderId: number;
-		itemId?: number;
-		itemName?: string;
-		userId?: number;
-		userName?: string;
-		userSurname?: string;
-		userEmail?: string;
-		createdAt?: string;
+		userId: number;
+		firstName: string;
+		lastName: string;
+		address: string;
+		city: string;
+		postalCode: string;
+		country: string;
+		totalPrice: number;
+		items: any[];
+		status: string;
+		createdAt: string;
 		processedAt?: string;
 		shippedAt?: string;
-		shippingAddress?: string;
-		price?: number;
+
 		isCompleted?: boolean;
+	
+		
 	};
 
 	onMount(async () => {
@@ -47,13 +52,33 @@
 		}
 	});
 
-	function formatPrice(price: number) {
-		return (price / 100).toFixed(2);
+	async function updateOrderStatus(orderId: number, newStatus: string) {
+		try {
+			const response = await fetch('/api/admin/orders', {
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ id: orderId, status: newStatus })
+			});
+
+			if (response.ok) {
+				const orderIndex = orders.findIndex(o => o.orderId === orderId);
+				if (orderIndex >= 0) {
+					orders[orderIndex].status = newStatus;
+					orders[orderIndex].isCompleted = newStatus === 'completed';
+					orders = [...orders]; // Trigger reactivity
+				}
+			}
+		} catch (error) {
+			console.error('Error updating order status:', error);
+		}
 	}
 
-	function formatDate(dateString?: string) {
-		if (!dateString) return 'N/A';
+	function formatDate(dateString: string) {
 		return new Date(dateString).toLocaleDateString('fr-FR');
+	}
+
+	function getTotalItems(items: any[]) {
+		return items.reduce((total, item) => total + (item.quantity || 1), 0);
 	}
 </script>
 
@@ -70,8 +95,12 @@
 		out:fly={{ y: 200, duration: 300 }}
 		class="relative {currentTheme === 'dark'
 			? 'bg-neutral-900'
-			: 'bg-gray-100'} overflow-auto rounded-lg p-6"
+			: 'bg-gray-100'} max-w-[95vw] max-h-[90vh] overflow-auto rounded-lg p-6"
 	>
+		<h2 class="text-2xl font-bold mb-6 {currentTheme === 'dark' ? 'text-white' : 'text-neutral-900'}">
+			Gestion des Commandes
+		</h2>
+
 		{#if loading}
 			<div class="flex items-center justify-center py-8">
 				<div
@@ -127,6 +156,13 @@
 							>
 								Statut
 							</th>
+							<th
+								class="px-3 py-3 text-left text-xs font-medium {currentTheme === 'dark'
+									? 'text-neutral-300'
+									: 'text-gray-500'} tracking-wider uppercase"
+							>
+								Actions
+							</th>
 						</tr>
 					</thead>
 					<tbody
@@ -143,19 +179,16 @@
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
-									{order.orderId}
+									#{order.orderId}
 								</td>
 								<td
 									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
-									{order.userName}
-									{order.userSurname}
-									<div
-										class="text-xs {currentTheme === 'dark' ? 'text-neutral-400' : 'text-gray-500'}"
-									>
-										{order.userEmail}
+									<div class="font-medium">{order.firstName} {order.lastName}</div>
+									<div class="text-xs {currentTheme === 'dark' ? 'text-neutral-400' : 'text-gray-500'}">
+										{order.address}, {order.city}
 									</div>
 								</td>
 								<td
@@ -163,14 +196,14 @@
 										? 'text-neutral-300'
 										: 'text-gray-900'}"
 								>
-									{order.itemName || 'N/A'}
+									{getTotalItems(order.items)} article{getTotalItems(order.items) > 1 ? 's' : ''}
 								</td>
 								<td
-									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
-										? 'text-neutral-300'
-										: 'text-gray-900'}"
+									class="px-3 py-4 text-sm font-semibold whitespace-nowrap {currentTheme === 'dark'
+										? 'text-amber-400'
+										: 'text-amber-600'}"
 								>
-									{order.price ? '$' + formatPrice(order.price) : 'N/A'}
+									${order.totalPrice.toFixed(2)}
 								</td>
 								<td
 									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
@@ -181,12 +214,44 @@
 								</td>
 								<td class="px-3 py-4 whitespace-nowrap">
 									<span
-										class="inline-flex rounded-full px-2 text-xs leading-5 font-semibold {order.isCompleted
+										class="inline-flex rounded-full px-2 text-xs leading-5 font-semibold {order.status === 'completed'
 											? 'bg-green-100 text-green-800'
+											: order.status === 'processing'
+											? 'bg-blue-100 text-blue-800'
+											: order.status === 'shipped'
+											? 'bg-purple-100 text-purple-800'
 											: 'bg-yellow-100 text-yellow-800'}"
 									>
-										{order.isCompleted ? 'Terminée' : 'En cours'}
+										{order.status === 'pending' ? 'En attente' : 
+										 order.status === 'processing' ? 'En cours' :
+										 order.status === 'shipped' ? 'Expédiée' : 'Terminée'}
 									</span>
+								</td>
+								<td class="px-3 py-4 text-sm font-medium whitespace-nowrap">
+									<div class="flex gap-1">
+										{#if order.status === 'pending'}
+											<button
+												on:click={() => updateOrderStatus(order.orderId, 'processing')}
+												class="rounded bg-blue-500 px-2 py-1 text-xs text-white transition-colors hover:bg-blue-600"
+											>
+												Traiter
+											</button>
+										{:else if order.status === 'processing'}
+											<button
+												on:click={() => updateOrderStatus(order.orderId, 'shipped')}
+												class="rounded bg-purple-500 px-2 py-1 text-xs text-white transition-colors hover:bg-purple-600"
+											>
+												Expédier
+											</button>
+										{:else if order.status === 'shipped'}
+											<button
+												on:click={() => updateOrderStatus(order.orderId, 'completed')}
+												class="rounded bg-green-500 px-2 py-1 text-xs text-white transition-colors hover:bg-green-600"
+											>
+												Terminer
+											</button>
+										{/if}
+									</div>
 								</td>
 							</tr>
 						{/each}
@@ -196,3 +261,4 @@
 		{/if}
 	</div>
 </div>
+

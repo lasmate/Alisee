@@ -2,6 +2,7 @@
 	import { fly } from 'svelte/transition';
 	import { theme } from '$lib/stores/themeStore';
 	import { cartStore, type CartItem } from '$lib/stores/cartStore';
+	import { userStore } from '$lib/stores/userStore';
 	import { onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 	import { createEventDispatcher } from 'svelte';
@@ -27,8 +28,14 @@
 	}
 
 	function proceedToCheckout() {
-		// Navigate to order processing page (to be implemented)
-		window.location.href = '/checkout';
+		if (!$userStore) {
+			// User not logged in, open user popover
+			dispatch('close');
+			dispatch('openUserPopover');
+		} else {
+			// User logged in, redirect to checkout
+			window.location.href = '/checkout';
+		}
 	}
 </script>
 
@@ -130,7 +137,7 @@
 					class="w-full rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-neutral-900 transition-colors hover:bg-amber-600 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:outline-none"
 					on:click={proceedToCheckout}
 				>
-					Procéder à la commande
+					{$userStore ? 'Procéder à la commande' : 'Se connecter pour commander'}
 				</button>
 			</div>
 		{/if}
