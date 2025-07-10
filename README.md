@@ -81,16 +81,18 @@ Schémas dans `src/lib/server/db/schema/`
 ## 🛠️ Scripts Disponibles
 
 **Développement:**
+
 - `dev` - Serveur développement | `build` - Build production | `preview` - Préview build
 
 **Qualité:**
+
 - `check` - Types TypeScript | `format` - Prettier | `lint` - ESLint | `test` - Tests complets
 
 **Tests:**
+
 - `test:unit` - Vitest | `test:e2e` - Playwright (nécessite `npx playwright install`)
 
 > **Déploiement:** Utilise `@sveltejs/adapter-auto` pour détection automatique (Vercel, Netlify, Node).
-```
 
 Cela démarrera le serveur de développement SvelteKit, généralement sur `http://localhost:5173`. Le serveur se rechargera automatiquement lorsque vous apporterez des modifications au code.
 
