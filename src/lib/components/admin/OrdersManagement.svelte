@@ -103,6 +103,32 @@
 	function getTotalItems(items: any[]) {
 		return items.reduce((total, item) => total + (item.quantity || 1), 0);
 	}
+
+	async function exportOrderToPDF(order: Order) {
+		try {
+			const response = await fetch('/api/admin/orders/export', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ orderId: order.orderId })
+			});
+
+			if (response.ok) {
+				const blob = await response.blob();
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = `commande-${order.orderId}.pdf`;
+				document.body.appendChild(a);
+				a.click();
+				window.URL.revokeObjectURL(url);
+				document.body.removeChild(a);
+			} else {
+				console.error('Failed to export order');
+			}
+		} catch (error) {
+			console.error('Error exporting order:', error);
+		}
+	}
 </script>
 
 <div class="fixed inset-0 z-15 flex items-center justify-center">
@@ -252,6 +278,15 @@
 								</td>
 								<td class="px-3 py-4 text-sm font-medium whitespace-nowrap">
 									<div class="flex gap-1">
+										<!-- PDF Export button -->
+										<button
+											onclick={() => exportOrderToPDF(order)}
+											class="rounded bg-indigo-500 px-2 py-1 text-xs text-white transition-colors hover:bg-indigo-600"
+											title="Exporter en PDF"
+										>
+											📄 PDF
+										</button>
+										
 										<!-- Back button -->
 										{#if getPreviousStatus(order.status)}
 											<button

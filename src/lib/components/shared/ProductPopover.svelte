@@ -122,7 +122,7 @@
 							? 'text-neutral-300'
 							: 'text-neutral-700'} select-none"
 					>
-						${item.price.toFixed(2)}
+						{item.price.toFixed(2)}€
 					</p>
 				</div>
 				{#if images.length > 0}
