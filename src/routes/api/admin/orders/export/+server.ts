@@ -98,7 +98,7 @@ function generatePDFWithKit(order: any, items: any[]): Promise<Buffer> {
 		
 		let yPosition = 330;
 		items.forEach((item) => {
-			const itemTotal = (item.price * item.quantity).toFixed(2);
+			const itemTotal = ((item.price * item.quantity) ).toFixed(2);
 			doc.fontSize(10).text(
 				`${item.name} x${item.quantity} - ${itemTotal}€`,
 				50,
@@ -107,7 +107,7 @@ function generatePDFWithKit(order: any, items: any[]): Promise<Buffer> {
 			yPosition += 20;
 		});
 
-		const formattedTotal = order.totalPrice.toFixed(2);
+		const formattedTotal = (order.totalPrice / 100).toFixed(2);
 		doc.fontSize(14).text(`TOTAL: ${formattedTotal}€`, 50, yPosition + 20);
 		doc.fontSize(10).text('Merci pour votre commande !', 50, yPosition + 60);
 

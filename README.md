@@ -11,6 +11,16 @@ Plateforme e-commerce moderne avec SvelteKit 5, Tailwind CSS et Drizzle ORM.
 
 ## Version Changelog
 
+
+
+### v2.0.1 (août 2025) - Correctifs et fonctionnalités mineurs
+
+- 🐛 **Correction de bugs** : Résolution de problèmes mineurs dans le système de commande
+- 📄 **Amélioration de la documentation** : Mise à jour des commentaires JSDoc
+- 📄 **Exportation PDF** : Génération de factures PDF pour les commandes
+- 📦 **Mise à jour des dépendances** : Mise à jour de SvelteKit et des bibliothèques associées
+
+
 ### v2.0.0 (juillet 2025) - Version Majeure de lancement
 
 - 🛒 **Système de commande complet** : Pipeline de commande intégral avec validation, stockage en base et suivi

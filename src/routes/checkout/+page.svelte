@@ -174,7 +174,7 @@
 								{/if}
 							</div>
 							<p class="font-semibold {currentTheme === 'dark' ? 'text-amber-400' : 'text-amber-600'}">
-								{(item.price * item.quantity).toFixed(2)}€
+								{((item.price * item.quantity) / 100).toFixed(2)}€
 							</p>
 						</div>
 					{/each}
@@ -183,7 +183,7 @@
 					<div class="flex justify-between items-center text-lg font-bold">
 						<span class="{currentTheme === 'dark' ? 'text-white' : 'text-neutral-900'}">Total:</span>
 						<span class="{currentTheme === 'dark' ? 'text-amber-400' : 'text-amber-600'}">
-							{totalPrice.toFixed(2)}€
+							{(totalPrice / 100).toFixed(2)}€
 						</span>
 					</div>
 				</div>

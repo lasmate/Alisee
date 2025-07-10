@@ -252,7 +252,7 @@
 										? 'text-amber-400'
 										: 'text-amber-600'}"
 								>
-									${order.totalPrice.toFixed(2)}
+									{(order.totalPrice ).toFixed(2)}€
 								</td>
 								<td
 									class="px-3 py-4 text-sm whitespace-nowrap {currentTheme === 'dark'
