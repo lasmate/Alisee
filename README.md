@@ -4,11 +4,10 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Drizzle ORM](https://img.shields.io/badge/Drizzle_ORM-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black)
-![npm](https://img.shields.io/badge/npm-CB3A37?style=for-the-badge&logo=npm&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Version](https://img.shields.io/badge/version-v2.0.0-blue?style=for-the-badge)
 
-Ceci est un projet Svelte initialisé avec SvelteKit, utilisant Tailwind CSS pour le style et Drizzle ORM pour les interactions avec la base de données.
+Plateforme e-commerce moderne avec SvelteKit 5, Tailwind CSS et Drizzle ORM.
 
 ## Version Changelog
 
@@ -46,50 +45,51 @@ Ceci est un projet Svelte initialisé avec SvelteKit, utilisant Tailwind CSS pou
 - 🛒 Fonctionnalités de base du panier d'achat
 - 📦 Gestion des produits et images
 
-## Démarrage rapide
+## 🚀 Démarrage Rapide
 
-### Prérequis
-
-- Node.js (version recommandée par SvelteKit, généralement la dernière LTS)
-- npm (ou pnpm/yarn)
-
-### Installation
-
-1. **Cloner le dépôt (si ce n'est pas déjà fait) :**
-
-   ```bash
-   # Si vous partez de zéro ou contribuez
-   # git clone <repository-url>
-   # cd alisee
-   ```
-
-2. **Installer les dépendances :**
-
-   ```bash
-   npm install
-   ```
-
-3. **Configurer les variables d'environnement :**
-
-   Créer un fichier `.env` à la racine du projet et ajouter l'URL de votre base de données :
-
-   ```env
-   DATABASE_URL="file:./db.sqlite"
-   ```
-
-   Ou pour une base de données Turso/libSQL distante :
-
-   ```env
-   DATABASE_URL="libsql://your-database.turso.io"
-   TURSO_AUTH_TOKEN="your-auth-token"
-   ```
-
-## Développement
-
-Pour démarrer le serveur de développement :
+**Prérequis:** Node.js LTS, npm
 
 ```bash
-npm run dev
+# Installation
+npm install
+
+# Variables d'environnement (.env)
+DATABASE_URL="file:./db.sqlite"
+# Ou Turso: DATABASE_URL="libsql://your-database.turso.io"
+
+# Démarrage
+npm run db:seed    # Amorcer la base
+npm run dev        # Serveur de développement (http://localhost:5173)
+```
+
+## 🗄️ Base de Données (Drizzle ORM)
+
+```bash
+# Développement
+npm run db:push      # Sync schéma 
+npm run db:seed      # Données initiales (idempotent)
+npm run db:studio    # Interface graphique
+./dbump.sh          # Reset complet
+
+# Production
+npx drizzle-kit generate --name <migration-name>
+npm run db:migrate
+```
+
+Schémas dans `src/lib/server/db/schema/`
+
+## 🛠️ Scripts Disponibles
+
+**Développement:**
+- `dev` - Serveur développement | `build` - Build production | `preview` - Préview build
+
+**Qualité:**
+- `check` - Types TypeScript | `format` - Prettier | `lint` - ESLint | `test` - Tests complets
+
+**Tests:**
+- `test:unit` - Vitest | `test:e2e` - Playwright (nécessite `npx playwright install`)
+
+> **Déploiement:** Utilise `@sveltejs/adapter-auto` pour détection automatique (Vercel, Netlify, Node).
 ```
 
 Cela démarrera le serveur de développement SvelteKit, généralement sur `http://localhost:5173`. Le serveur se rechargera automatiquement lorsque vous apporterez des modifications au code.
